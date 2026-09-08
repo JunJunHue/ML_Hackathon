@@ -6,618 +6,636 @@
 <title>GREEN//COMPUTE — NYU BAC Sustainable Data Center Hackathon</title>
 <meta name="description" content="A sustainable data center hackathon hosted by the NYU Business Analytics Club ML Team. Waste heat reuse & hardware second-life. Oct 2, 2026.">
 <!-- ============================================================
-     GREEN//COMPUTE — hackathon landing page
+     GREEN//COMPUTE — tabbed hackathon site (LED / sustainable theme)
      NOTE: "GREEN//COMPUTE" is a working event name — swap freely.
-     Countdown target + form embed are marked with TODO comments below.
+     Countdown target + interest-form embed are marked TODO below.
      ============================================================ -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    /* --- thermal + chrome + midnight palette --- */
-    --bg:        #060811;
-    --bg-2:      #090c18;
-    --panel:     #0c1122;
-    --panel-2:   #0e1428;
-    --line:      #1c2540;
-    --line-hot:  #2a3a5e;
-    --chrome:    #c7d2e8;
-    --chrome-dim:#8a96b4;
-    --muted:     #5a6788;
-    --white:     #eef3ff;
+    /* --- sustainable LED palette: greens + blues, cool --- */
+    --bg:      #04120e;
+    --bg-2:    #061a15;
+    --panel:   #07201b;
+    --panel-2: #09271f;
+    --line:    #13463a;
+    --line-2:  #1c6650;
 
-    --cold:      #2ee6ff;   /* thermal: cold  */
-    --warm:      #ff3d9a;   /* thermal: warm  */
-    --hot:       #ffab3d;   /* thermal: hot   */
+    --green:   #35ff9d;   /* primary LED green   */
+    --mint:    #12e6bf;   /* teal / mint         */
+    --cyan:    #1fd8ff;   /* LED cyan            */
+    --blue:    #3a9bff;   /* electric blue       */
 
-    --thermal: linear-gradient(90deg, var(--cold) 0%, #7a6bff 32%, var(--warm) 66%, var(--hot) 100%);
+    --text:    #cbeee0;
+    --dim:     #6ba394;
+    --white:   #eafff7;
 
-    --shadow: 0 0 0 1px rgba(46,230,255,.04), 0 24px 60px -30px rgba(0,0,0,.9);
-    --glow-cold: 0 0 24px -4px rgba(46,230,255,.55);
-    --glow-warm: 0 0 24px -4px rgba(255,61,154,.5);
+    --grad: linear-gradient(90deg, var(--green) 0%, var(--mint) 34%, var(--cyan) 66%, var(--blue) 100%);
+    --grad-soft: linear-gradient(120deg, rgba(53,255,157,.16), rgba(31,216,255,.14), rgba(58,155,255,.12));
 
-    --ff-display: "Chakra Petch", "Segoe UI", system-ui, sans-serif;
-    --ff-body:    "Space Grotesk", system-ui, sans-serif;
-    --ff-mono:    "Space Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    --glow-g: 0 0 16px -2px rgba(53,255,157,.6);
+    --glow-c: 0 0 16px -2px rgba(31,216,255,.55);
 
-    --maxw: 1180px;
+    --ff-display:"Chakra Petch","Segoe UI",system-ui,sans-serif;
+    --ff-body:"Space Grotesk",system-ui,sans-serif;
+    --ff-mono:"Space Mono",ui-monospace,Menlo,monospace;
+
+    --maxw:1160px;
+    --bd:1.5px;   /* strong border width */
   }
 
   *{ box-sizing:border-box; }
-  html{ scroll-behavior:smooth; }
-  @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } }
-
-  html{ overflow-x:hidden; }
+  html{ overflow-x:hidden; scroll-behavior:smooth; }
   body{
-    margin:0;
-    background:var(--bg);
-    color:var(--chrome);
-    font-family:var(--ff-body);
-    font-size:16px;
-    line-height:1.6;
-    -webkit-font-smoothing:antialiased;
-    overflow-x:hidden;
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:var(--ff-body); font-size:16px; line-height:1.6;
+    -webkit-font-smoothing:antialiased; overflow-x:hidden;
   }
+  a{ color:inherit; text-decoration:none; }
+  @media (prefers-reduced-motion:reduce){ html{ scroll-behavior:auto; } }
 
-  /* ambient: grid + thermal bloom + scanlines ------------------ */
+  /* ================= LOADING SCREEN ================= */
+  #boot{
+    position:fixed; inset:0; z-index:1000; background:var(--bg);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:26px;
+    transition:opacity .6s ease, visibility .6s;
+  }
+  #boot.gone{ opacity:0; visibility:hidden; }
+  #boot .bootlogo{
+    font-family:var(--ff-display); font-weight:700; font-size:clamp(2rem,7vw,3.4rem);
+    letter-spacing:.02em; color:var(--white); position:relative;
+  }
+  #boot .bootlogo .sl{ background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  #boot .bootline{ font-family:var(--ff-mono); font-size:.78rem; letter-spacing:.22em; text-transform:uppercase; color:var(--green); }
+  #boot .bootline::after{ content:"_"; animation:blink 1s steps(1) infinite; }
+  @keyframes blink{ 50%{ opacity:0; } }
+  #boot .boottrack{ width:min(320px,72vw); height:8px; border:var(--bd) solid var(--line-2); background:var(--bg-2); overflow:hidden; }
+  #boot .bootfill{ height:100%; width:0; background:var(--grad); box-shadow:var(--glow-g); }
+  #boot .bootpct{ font-family:var(--ff-mono); font-size:.72rem; letter-spacing:.3em; color:var(--dim); }
+  /* LED equalizer under boot */
+  #boot .eq{ display:flex; gap:5px; height:26px; align-items:flex-end; }
+  #boot .eq i{ width:5px; background:var(--grad); box-shadow:var(--glow-g); animation:eq 1s ease-in-out infinite; }
+  #boot .eq i:nth-child(2){ animation-delay:.15s } #boot .eq i:nth-child(3){ animation-delay:.3s }
+  #boot .eq i:nth-child(4){ animation-delay:.45s } #boot .eq i:nth-child(5){ animation-delay:.1s }
+  #boot .eq i:nth-child(6){ animation-delay:.35s } #boot .eq i:nth-child(7){ animation-delay:.2s }
+  @keyframes eq{ 0%,100%{ height:20% } 50%{ height:100% } }
+  @media (prefers-reduced-motion:reduce){ #boot .eq i{ animation:none; height:60% } }
+
+  /* ================= AMBIENT BACKGROUND ================= */
   .atmos{ position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
   .atmos .grid{
     position:absolute; inset:-2px;
     background-image:
       linear-gradient(var(--line) 1px, transparent 1px),
       linear-gradient(90deg, var(--line) 1px, transparent 1px);
-    background-size: 54px 54px;
-    -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, #000 20%, transparent 78%);
-            mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, #000 20%, transparent 78%);
-    opacity:.5;
+    background-size:58px 58px; opacity:.35;
+    -webkit-mask-image:radial-gradient(ellipse 85% 65% at 50% 30%, #000 30%, transparent 80%);
+            mask-image:radial-gradient(ellipse 85% 65% at 50% 30%, #000 30%, transparent 80%);
+    animation:drift 26s linear infinite;
   }
-  .atmos .bloom{
-    position:absolute; left:50%; top:-16%; transform:translateX(-50%);
-    width:120vw; height:70vh;
+  @keyframes drift{ to{ background-position:58px 58px; } }
+  .atmos .aura{
+    position:absolute; left:50%; top:-10%; width:90vw; height:60vh; transform:translateX(-50%);
     background:
-      radial-gradient(closest-side, rgba(46,230,255,.18), transparent 70%) -18vw 0/60vw 60vh no-repeat,
-      radial-gradient(closest-side, rgba(255,61,154,.16), transparent 70%) 20vw 6vh/62vw 62vh no-repeat,
-      radial-gradient(closest-side, rgba(255,171,61,.10), transparent 70%) 44vw 18vh/40vw 40vh no-repeat;
-    filter:blur(8px);
+      radial-gradient(closest-side, rgba(53,255,157,.16), transparent 70%) 20% 0/55vw 55vh no-repeat,
+      radial-gradient(closest-side, rgba(31,216,255,.14), transparent 70%) 80% 20%/55vw 55vh no-repeat;
+    filter:blur(10px);
   }
-  .atmos .scan{
-    position:absolute; inset:0;
-    background:repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0 1px, transparent 1px 3px);
-    mix-blend-mode:overlay; opacity:.5;
-  }
+  .energy{ position:absolute; inset:0; }
+  .energy i{ position:absolute; bottom:-20px; width:3px; height:3px; border-radius:50%; background:var(--green); box-shadow:var(--glow-g); opacity:0; animation:rise-e linear infinite; }
+  @keyframes rise-e{ 0%{ transform:translateY(0) scale(1); opacity:0 } 8%{ opacity:.9 } 90%{ opacity:.7 } 100%{ transform:translateY(-104vh) scale(.4); opacity:0 } }
+  @media (prefers-reduced-motion:reduce){ .atmos .grid{ animation:none } .energy{ display:none } }
 
   .wrap{ position:relative; z-index:1; max-width:var(--maxw); margin:0 auto; padding:0 24px; }
 
-  a{ color:inherit; text-decoration:none; }
-
-  /* --- shared type devices --- */
+  /* ================= TYPE DEVICES ================= */
   .eyebrow{
-    font-family:var(--ff-mono); font-size:.72rem; letter-spacing:.28em;
-    text-transform:uppercase; color:var(--cold);
-    display:inline-flex; align-items:center; gap:.6em;
+    font-family:var(--ff-mono); font-size:.72rem; letter-spacing:.26em; text-transform:uppercase;
+    color:var(--green); display:inline-flex; align-items:center; gap:.6em;
   }
-  .eyebrow::before{ content:""; width:20px; height:1px; background:var(--cold); box-shadow:var(--glow-cold); }
-  h1,h2,h3{ font-family:var(--ff-display); font-weight:700; line-height:1.02; margin:0; color:var(--white); }
-  .thermal-text{
-    background:var(--thermal); -webkit-background-clip:text; background-clip:text; color:transparent;
-  }
+  .eyebrow::before{ content:""; width:22px; height:2px; background:var(--grad); box-shadow:var(--glow-g); }
+  h1,h2,h3{ font-family:var(--ff-display); font-weight:700; line-height:1.03; margin:0; color:var(--white); }
+  .grad-text{ background:var(--grad); background-size:200% auto; -webkit-background-clip:text; background-clip:text; color:transparent; animation:shift 6s linear infinite; }
+  @keyframes shift{ to{ background-position:200% center; } }
+  @media (prefers-reduced-motion:reduce){ .grad-text{ animation:none } }
 
-  /* corner-bracket panel — the recurring console motif ---------- */
-  .console{ position:relative; background:linear-gradient(180deg,var(--panel),var(--panel-2)); border:1px solid var(--line); }
-  .console::before,.console::after{
-    content:""; position:absolute; width:14px; height:14px; border:2px solid var(--cold);
-    opacity:.8;
-  }
-  .console::before{ top:-1px; left:-1px; border-right:0; border-bottom:0; }
-  .console::after{ bottom:-1px; right:-1px; border-left:0; border-top:0; }
+  /* strong-bordered surface (replaces the old corner-bracket console) */
+  .panel{ background:linear-gradient(180deg,var(--panel),var(--panel-2)); border:var(--bd) solid var(--line-2); }
 
-  /* ============ NAV ============ */
-  header.nav{
-    position:sticky; top:0; z-index:50;
-    backdrop-filter:blur(12px);
-    background:linear-gradient(180deg, rgba(6,8,17,.9), rgba(6,8,17,.55));
-    border-bottom:1px solid var(--line);
-  }
-  .nav-inner{ display:flex; align-items:center; justify-content:space-between; height:64px; }
-  .brand{ font-family:var(--ff-display); font-weight:700; letter-spacing:.02em; font-size:1.05rem; color:var(--white); display:flex; align-items:center; gap:.55rem; }
-  .brand .slash{ color:var(--warm); }
-  .brand .dot{ width:8px; height:8px; border-radius:50%; background:var(--cold); box-shadow:var(--glow-cold); animation:pulse 2.4s infinite; }
-  @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:.35;} }
-  nav.links{ display:flex; align-items:center; gap:26px; }
-  nav.links a{ font-family:var(--ff-mono); font-size:.78rem; letter-spacing:.08em; color:var(--chrome-dim); text-transform:uppercase; transition:color .2s; }
-  nav.links a:hover{ color:var(--cold); }
   .btn{
     font-family:var(--ff-mono); font-size:.78rem; letter-spacing:.1em; text-transform:uppercase;
-    padding:11px 20px; border:1px solid var(--cold); color:var(--bg);
-    background:var(--cold); position:relative; transition:transform .15s, box-shadow .2s, background .2s;
-    display:inline-block;
+    padding:12px 22px; border:var(--bd) solid var(--green); color:#03150f; background:var(--green);
+    display:inline-block; cursor:pointer; transition:transform .15s, box-shadow .25s, background .2s;
   }
-  .btn:hover{ box-shadow:var(--glow-cold); transform:translateY(-1px); }
-  .btn.ghost{ background:transparent; color:var(--cold); }
-  .btn.ghost:hover{ background:rgba(46,230,255,.08); }
-  .navtoggle{ display:none; background:none; border:1px solid var(--line); color:var(--chrome); font-family:var(--ff-mono); padding:8px 12px; cursor:pointer; }
+  .btn:hover{ box-shadow:var(--glow-g); transform:translateY(-2px); }
+  .btn.ghost{ background:transparent; color:var(--green); }
+  .btn.ghost:hover{ background:rgba(53,255,157,.1); }
 
-  /* ============ HERO ============ */
-  .hero{ padding:74px 0 40px; }
-  .hero-status{ display:flex; flex-wrap:wrap; gap:14px 26px; align-items:center; margin-bottom:30px; }
-  .status-chip{ font-family:var(--ff-mono); font-size:.72rem; letter-spacing:.14em; color:var(--chrome-dim); text-transform:uppercase; display:flex; align-items:center; gap:.5em; }
-  .status-chip .live{ width:7px; height:7px; border-radius:50%; background:var(--warm); box-shadow:var(--glow-warm); animation:pulse 1.6s infinite; }
-  .hero h1{ font-size:clamp(2.6rem, 9vw, 7rem); letter-spacing:-.01em; }
-  .hero h1 .grn{ color:var(--white); }
-  .hero h1 .sls{ background:var(--thermal); -webkit-background-clip:text; background-clip:text; color:transparent; }
-  .hero-sub{ max-width:640px; margin:22px 0 0; font-size:1.15rem; color:var(--chrome); }
+  /* ================= HEADER / TABS ================= */
+  header.top{
+    position:sticky; top:0; z-index:60;
+    background:linear-gradient(180deg, rgba(4,18,14,.94), rgba(4,18,14,.7));
+    backdrop-filter:blur(12px);
+    border-bottom:var(--bd) solid var(--line-2);
+  }
+  .top-inner{ max-width:var(--maxw); margin:0 auto; padding:0 24px; height:66px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+  .brand{ font-family:var(--ff-display); font-weight:700; font-size:1.05rem; color:var(--white); display:flex; align-items:center; gap:.55rem; white-space:nowrap; cursor:pointer; }
+  .brand .led{ width:9px; height:9px; border-radius:50%; background:var(--green); box-shadow:0 0 10px var(--green); animation:beat 2s infinite; }
+  .brand .sl{ background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  @keyframes beat{ 0%,100%{ opacity:1; box-shadow:0 0 10px var(--green) } 50%{ opacity:.4; box-shadow:0 0 3px var(--green) } }
+
+  nav.tabs{ display:flex; gap:8px; overflow-x:auto; scrollbar-width:none; }
+  nav.tabs::-webkit-scrollbar{ display:none; }
+  .tab{
+    position:relative; font-family:var(--ff-mono); font-size:.74rem; letter-spacing:.12em; text-transform:uppercase;
+    padding:9px 15px; border:var(--bd) solid var(--line); background:transparent; color:var(--dim);
+    cursor:pointer; white-space:nowrap; transition:color .2s, border-color .2s, box-shadow .25s, background .2s;
+  }
+  .tab:hover{ color:var(--text); border-color:var(--line-2); }
+  .tab.on{ color:var(--white); border-color:var(--green); background:rgba(53,255,157,.08); box-shadow:var(--glow-g); }
+  .tab.on::after{ content:""; position:absolute; left:8px; right:8px; bottom:-1.5px; height:2px; background:var(--grad); box-shadow:var(--glow-g); }
+
+  /* ================= PAGES ================= */
+  main{ position:relative; z-index:1; }
+  .page{ display:none; }
+  .page.active{ display:block; }
+  section.view{ max-width:var(--maxw); margin:0 auto; padding:64px 24px 90px; }
+
+  /* staggered entrance for direct children of .flow */
+  .page.active .flow>*{ animation:rise .6s cubic-bezier(.2,.7,.2,1) both; }
+  @keyframes rise{ from{ opacity:0; transform:translateY(22px); } to{ opacity:1; transform:none; } }
+  .flow>*:nth-child(1){ animation-delay:.04s } .flow>*:nth-child(2){ animation-delay:.1s }
+  .flow>*:nth-child(3){ animation-delay:.16s } .flow>*:nth-child(4){ animation-delay:.22s }
+  .flow>*:nth-child(5){ animation-delay:.28s } .flow>*:nth-child(6){ animation-delay:.34s }
+  .flow>*:nth-child(7){ animation-delay:.4s }  .flow>*:nth-child(8){ animation-delay:.46s }
+  @media (prefers-reduced-motion:reduce){ .page.active .flow>*{ animation:none } }
+
+  .sec-head{ max-width:720px; margin-bottom:44px; }
+  .sec-head h2{ font-size:clamp(2rem,5vw,3.1rem); margin-top:16px; }
+  .sec-head p{ color:var(--dim); font-size:1.06rem; margin:16px 0 0; }
+
+  /* ---------- HOME / HERO ---------- */
+  .hero-status{ display:flex; flex-wrap:wrap; gap:12px 24px; align-items:center; margin-bottom:26px; }
+  .chip{ font-family:var(--ff-mono); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); display:flex; align-items:center; gap:.5em; }
+  .chip .dot{ width:7px; height:7px; border-radius:50%; background:var(--cyan); box-shadow:0 0 8px var(--cyan); animation:beat 1.6s infinite; }
+  #page-home h1{ font-size:clamp(2.6rem,10vw,7rem); letter-spacing:-.01em; }
+  .hero-sub{ max-width:620px; margin:22px 0 0; font-size:1.16rem; }
   .hero-sub b{ color:var(--white); font-weight:600; }
-  .hero-cta{ display:flex; flex-wrap:wrap; gap:14px; margin-top:34px; }
+  .hero-cta{ display:flex; flex-wrap:wrap; gap:14px; margin-top:32px; }
 
-  /* countdown console — the signature ------------------------- */
-  .readout{ margin-top:52px; padding:26px; }
-  .readout-top{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:22px; padding-bottom:16px; border-bottom:1px dashed var(--line-hot); }
-  .readout-top .label{ font-family:var(--ff-mono); font-size:.75rem; letter-spacing:.2em; text-transform:uppercase; color:var(--chrome-dim); }
-  .readout-top .label b{ color:var(--hot); }
-  .readout-top .tele{ font-family:var(--ff-mono); font-size:.7rem; letter-spacing:.12em; color:var(--chrome-dim); }
-  .clock{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
-  .cell{ text-align:center; position:relative; padding:20px 8px; background:radial-gradient(120% 120% at 50% 0%, rgba(46,230,255,.06), transparent 70%); border:1px solid var(--line); }
-  .cell .num{ font-family:var(--ff-mono); font-weight:700; font-size:clamp(2.4rem,7vw,4.4rem); line-height:1; color:var(--white); font-variant-numeric:tabular-nums; text-shadow:0 0 22px rgba(46,230,255,.35); }
-  .cell .cap{ display:block; margin-top:12px; font-family:var(--ff-mono); font-size:.66rem; letter-spacing:.24em; text-transform:uppercase; color:var(--chrome-dim); }
-  .cell:nth-child(1) .num{ color:#e9f6ff; }
-  .clock .sep{ display:none; }
-  .readout-bar{ height:6px; margin-top:22px; background:var(--bg-2); border:1px solid var(--line); overflow:hidden; }
-  .readout-bar i{ display:block; height:100%; background:var(--thermal); box-shadow:0 0 16px rgba(255,61,154,.4); width:0; transition:width 1s linear; }
-  .readout-foot{ display:flex; justify-content:space-between; margin-top:10px; font-family:var(--ff-mono); font-size:.64rem; letter-spacing:.14em; text-transform:uppercase; color:var(--chrome-dim); }
+  /* countdown — LED segment strip (strong border, no brackets) */
+  .clock{ margin-top:52px; display:grid; grid-template-columns:repeat(4,1fr); gap:0; border:var(--bd) solid var(--line-2); }
+  .clock .cell{ padding:26px 8px 20px; text-align:center; border-right:var(--bd) solid var(--line-2); background:linear-gradient(180deg, rgba(53,255,157,.05), transparent 60%); position:relative; }
+  .clock .cell:last-child{ border-right:0; }
+  .clock .num{ font-family:var(--ff-mono); font-weight:700; font-size:clamp(2.4rem,7vw,4.6rem); line-height:1; color:var(--white); font-variant-numeric:tabular-nums; text-shadow:0 0 20px rgba(53,255,157,.45); display:block; }
+  .clock .num.tick{ animation:tick .5s ease; }
+  @keyframes tick{ 0%{ color:var(--green); transform:scale(1.08) } 100%{ color:var(--white); transform:none } }
+  .clock .cap{ display:block; margin-top:12px; font-family:var(--ff-mono); font-size:.64rem; letter-spacing:.24em; text-transform:uppercase; color:var(--dim); }
+  .clock-foot{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px 20px; margin-top:16px; font-family:var(--ff-mono); font-size:.68rem; letter-spacing:.16em; text-transform:uppercase; color:var(--dim); }
+  .clock-foot b{ color:var(--green); }
+  .bar{ flex:1; min-width:160px; height:6px; border:var(--bd) solid var(--line-2); background:var(--bg-2); overflow:hidden; }
+  .bar i{ display:block; height:100%; width:0; background:var(--grad); box-shadow:var(--glow-g); transition:width 1s linear; }
 
-  /* ============ generic section ============ */
-  section{ padding:96px 0; position:relative; }
-  .sec-head{ max-width:720px; margin-bottom:52px; }
-  .sec-head h2{ font-size:clamp(2rem,5vw,3.2rem); margin-top:18px; }
-  .sec-head p{ color:var(--chrome-dim); font-size:1.08rem; margin:18px 0 0; }
-  .divider{ height:1px; background:var(--line); }
+  .home-grid{ margin-top:64px; display:grid; grid-template-columns:1.25fr 1fr; gap:40px; align-items:start; }
+  .home-grid p{ font-size:1.06rem; }
+  .home-grid p+p{ margin-top:16px; }
+  .thread{ margin-top:24px; padding:18px 20px; border:var(--bd) solid var(--line-2); border-left:3px solid var(--green); background:rgba(53,255,157,.05); }
+  .thread span{ font-family:var(--ff-mono); font-size:.7rem; letter-spacing:.18em; text-transform:uppercase; color:var(--green); display:block; margin-bottom:6px; }
+  .facts{ display:grid; gap:12px; }
+  .fact{ padding:18px 20px; display:flex; flex-direction:column; gap:5px; }
+  .fact .k{ font-family:var(--ff-mono); font-size:.66rem; letter-spacing:.2em; text-transform:uppercase; color:var(--cyan); }
+  .fact .v{ font-family:var(--ff-display); font-size:1.3rem; color:var(--white); font-weight:600; }
+  .fact .m{ font-family:var(--ff-mono); font-size:.72rem; color:var(--dim); }
 
-  /* ============ ABOUT / stats ============ */
-  .about-grid{ display:grid; grid-template-columns:1.3fr 1fr; gap:48px; align-items:start; }
-  .about-copy p{ color:var(--chrome); font-size:1.08rem; }
-  .about-copy p + p{ margin-top:18px; }
-  .about-copy .thread{ margin-top:26px; padding:18px 20px; border-left:2px solid var(--warm); background:rgba(255,61,154,.05); font-family:var(--ff-body); }
-  .about-copy .thread span{ font-family:var(--ff-mono); font-size:.72rem; letter-spacing:.18em; text-transform:uppercase; color:var(--warm); display:block; margin-bottom:6px; }
-  .facts{ display:grid; gap:14px; }
-  .fact{ padding:20px; display:flex; flex-direction:column; gap:6px; }
-  .fact .k{ font-family:var(--ff-mono); font-size:.68rem; letter-spacing:.2em; text-transform:uppercase; color:var(--cold); }
-  .fact .v{ font-family:var(--ff-display); font-size:1.35rem; color:var(--white); font-weight:600; }
-  .fact .m{ font-family:var(--ff-mono); font-size:.74rem; color:var(--chrome-dim); }
-
-  /* ============ TRACKS ============ */
-  .tracks{ display:grid; grid-template-columns:1fr 1fr; gap:22px; }
-  .track{ padding:30px; display:flex; flex-direction:column; min-height:100%; transition:transform .2s, box-shadow .3s; }
-  .track:hover{ transform:translateY(-3px); box-shadow:var(--shadow); }
-  .track .idx{ font-family:var(--ff-mono); font-size:.8rem; letter-spacing:.2em; color:var(--chrome-dim); }
-  .track h3{ font-size:1.9rem; margin:14px 0 6px; }
-  .track .draft{ display:inline-block; font-family:var(--ff-mono); font-size:.62rem; letter-spacing:.16em; text-transform:uppercase; color:var(--hot); border:1px solid var(--hot); padding:3px 8px; margin-bottom:16px; }
-  .track p{ color:var(--chrome-dim); font-size:1rem; }
+  /* ---------- TRACKS ---------- */
+  .tracks{ display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  .track{ padding:30px; display:flex; flex-direction:column; transition:transform .2s, box-shadow .3s, border-color .2s; }
+  .track:hover{ transform:translateY(-4px); box-shadow:var(--glow-g); border-color:var(--green); }
+  .track:nth-child(2):hover{ box-shadow:var(--glow-c); border-color:var(--cyan); }
+  .track .idx{ font-family:var(--ff-mono); font-size:.8rem; letter-spacing:.2em; color:var(--dim); }
+  .track h3{ font-size:1.9rem; margin:12px 0 8px; }
+  .track .draft{ display:inline-block; font-family:var(--ff-mono); font-size:.6rem; letter-spacing:.16em; text-transform:uppercase; color:var(--cyan); border:var(--bd) solid var(--cyan); padding:3px 8px; margin-bottom:16px; }
+  .track p{ color:var(--dim); font-size:1rem; }
   .track ul{ list-style:none; padding:0; margin:20px 0 0; display:grid; gap:10px; }
-  .track li{ font-family:var(--ff-mono); font-size:.82rem; color:var(--chrome); display:flex; gap:.7em; align-items:baseline; }
-  .track li::before{ content:"▚"; color:var(--cold); font-size:.7em; }
-  .track:nth-child(2) li::before{ color:var(--warm); }
-  .track .foot{ margin-top:auto; padding-top:22px; font-family:var(--ff-mono); font-size:.72rem; letter-spacing:.1em; color:var(--chrome-dim); text-transform:uppercase; }
-  .track:nth-child(2)::before,.track:nth-child(2)::after{ border-color:var(--warm); }
+  .track li{ font-family:var(--ff-mono); font-size:.82rem; color:var(--text); display:flex; gap:.7em; align-items:baseline; }
+  .track li::before{ content:"›"; color:var(--green); font-weight:700; }
+  .track:nth-child(2) li::before{ color:var(--cyan); }
+  .track .foot{ margin-top:auto; padding-top:22px; font-family:var(--ff-mono); font-size:.72rem; letter-spacing:.1em; color:var(--dim); text-transform:uppercase; }
 
-  /* ============ RESOURCES ============ */
+  /* ---------- DATA ---------- */
   .res-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
-  .res{ padding:22px; border:1px solid var(--line); background:var(--panel); transition:border-color .2s, transform .2s; }
-  .res:hover{ border-color:var(--cold); transform:translateY(-2px); }
-  .res .tag{ font-family:var(--ff-mono); font-size:.6rem; letter-spacing:.16em; text-transform:uppercase; color:var(--bg); background:var(--cold); padding:3px 7px; display:inline-block; margin-bottom:14px; }
+  .res{ padding:22px; border:var(--bd) solid var(--line-2); background:var(--panel); transition:border-color .2s, transform .2s, box-shadow .25s; }
+  .res:hover{ border-color:var(--cyan); transform:translateY(-3px); box-shadow:var(--glow-c); }
+  .res .idx{ float:right; font-family:var(--ff-mono); font-size:.72rem; color:var(--line-2); }
+  .res .tag{ font-family:var(--ff-mono); font-size:.6rem; letter-spacing:.16em; text-transform:uppercase; color:#03150f; background:var(--mint); padding:3px 7px; display:inline-block; margin-bottom:14px; }
   .res h4{ font-family:var(--ff-display); font-size:1.12rem; color:var(--white); margin:0 0 8px; font-weight:600; }
-  .res p{ margin:0; font-size:.9rem; color:var(--chrome-dim); }
-  .res .idx{ float:right; font-family:var(--ff-mono); font-size:.72rem; color:var(--line-hot); }
+  .res p{ margin:0; font-size:.9rem; color:var(--dim); }
 
-  /* ============ FORMAT / logistics ============ */
-  .fmt{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
-  .fmt .cell2{ padding:24px; text-align:left; }
-  .fmt .cell2 .big{ font-family:var(--ff-display); font-size:2rem; color:var(--white); font-weight:700; }
-  .fmt .cell2 .lab{ font-family:var(--ff-mono); font-size:.7rem; letter-spacing:.16em; text-transform:uppercase; color:var(--cold); margin-top:8px; }
-  .fmt .cell2 .sub{ font-size:.86rem; color:var(--chrome-dim); margin-top:6px; }
+  /* ---------- EVENT ---------- */
+  .fmt{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:64px; }
+  .fmt .cell2{ padding:24px; }
+  .fmt .big{ font-family:var(--ff-display); font-size:2rem; color:var(--white); font-weight:700; }
+  .fmt .lab{ font-family:var(--ff-mono); font-size:.7rem; letter-spacing:.16em; text-transform:uppercase; color:var(--green); margin-top:8px; }
+  .fmt .sub{ font-size:.86rem; color:var(--dim); margin-top:6px; }
 
-  /* ============ SPONSORS / HOSTS ============ */
-  .marq{ overflow:hidden; border-block:1px solid var(--line); padding:26px 0; margin-top:6px; }
-  .marq-track{ display:flex; gap:64px; width:max-content; animation:slide 26s linear infinite; }
-  @keyframes slide{ to{ transform:translateX(-50%); } }
-  @media (prefers-reduced-motion: reduce){ .marq-track{ animation:none; flex-wrap:wrap; } }
+  .marq{ overflow:hidden; border-block:var(--bd) solid var(--line-2); padding:24px 0; margin:0 0 56px; }
+  .marq-track{ display:flex; gap:60px; width:max-content; animation:slide 26s linear infinite; }
+  @keyframes slide{ to{ transform:translateX(-50%) } }
   .marq:hover .marq-track{ animation-play-state:paused; }
-  .sp{ font-family:var(--ff-display); font-weight:600; font-size:1.5rem; color:var(--chrome-dim); letter-spacing:.02em; white-space:nowrap; opacity:.75; transition:opacity .2s, color .2s; }
+  @media (prefers-reduced-motion:reduce){ .marq-track{ animation:none; flex-wrap:wrap; width:auto } }
+  .sp{ font-family:var(--ff-display); font-weight:600; font-size:1.5rem; color:var(--dim); white-space:nowrap; opacity:.7; transition:opacity .2s,color .2s; }
   .sp:hover{ opacity:1; color:var(--white); }
-  .hosts{ display:grid; grid-template-columns:repeat(2,1fr); gap:18px; margin-top:46px; }
+
+  .hosts{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:64px; }
   .host{ padding:26px; }
-  .host .role{ font-family:var(--ff-mono); font-size:.66rem; letter-spacing:.18em; text-transform:uppercase; color:var(--hot); }
-  .host h4{ font-family:var(--ff-display); font-size:1.25rem; color:var(--white); margin:10px 0 8px; font-weight:600; }
-  .host p{ margin:0; font-size:.92rem; color:var(--chrome-dim); }
+  .host .role{ font-family:var(--ff-mono); font-size:.66rem; letter-spacing:.18em; text-transform:uppercase; color:var(--cyan); }
+  .host h4{ font-family:var(--ff-display); font-size:1.22rem; color:var(--white); margin:10px 0 8px; font-weight:600; }
+  .host p{ margin:0; font-size:.92rem; color:var(--dim); }
 
-  /* ============ REGISTER ============ */
-  .register{ text-align:center; }
-  .reg-box{ max-width:720px; margin:0 auto; padding:48px 32px; }
-  .reg-box h2{ font-size:clamp(2rem,5vw,3rem); }
-  .reg-box p{ color:var(--chrome-dim); max-width:520px; margin:18px auto 0; }
-  /* TODO: replace this placeholder block with the real interest-form embed
-     (paste a Google Form / Typeform / Luma <iframe> where noted). */
-  .form-slot{
-    margin-top:34px; border:1px dashed var(--line-hot); background:repeating-linear-gradient(45deg, rgba(46,230,255,.03) 0 12px, transparent 12px 24px);
-    padding:44px 24px; font-family:var(--ff-mono); color:var(--chrome-dim); font-size:.82rem; letter-spacing:.08em;
-  }
-  .form-slot .big{ font-family:var(--ff-display); font-size:1.1rem; color:var(--white); letter-spacing:0; margin-bottom:8px; }
-  .reg-box .btn{ margin-top:30px; }
-
-  /* ============ FAQ ============ */
-  .faq{ display:grid; gap:12px; max-width:820px; }
-  details.q{ border:1px solid var(--line); background:var(--panel); }
-  details.q summary{ list-style:none; cursor:pointer; padding:20px 24px; font-family:var(--ff-display); font-weight:500; font-size:1.08rem; color:var(--white); display:flex; justify-content:space-between; align-items:center; gap:16px; }
+  .faq{ display:grid; gap:12px; max-width:840px; }
+  details.q{ border:var(--bd) solid var(--line-2); background:var(--panel); }
+  details.q[open]{ border-color:var(--green); box-shadow:var(--glow-g); }
+  details.q summary{ list-style:none; cursor:pointer; padding:20px 24px; font-family:var(--ff-display); font-weight:500; font-size:1.06rem; color:var(--white); display:flex; justify-content:space-between; align-items:center; gap:16px; }
   details.q summary::-webkit-details-marker{ display:none; }
-  details.q summary .pm{ font-family:var(--ff-mono); color:var(--cold); font-size:1.3rem; line-height:1; transition:transform .2s; }
+  details.q summary .pm{ font-family:var(--ff-mono); color:var(--green); font-size:1.3rem; line-height:1; transition:transform .2s; }
   details.q[open] summary .pm{ transform:rotate(45deg); }
-  details.q .a{ padding:0 24px 22px; color:var(--chrome-dim); font-size:.98rem; }
-  details.q .a a{ color:var(--cold); border-bottom:1px solid var(--line-hot); }
+  details.q .a{ padding:0 24px 22px; color:var(--dim); font-size:.98rem; }
 
-  /* ============ FOOTER ============ */
-  footer{ border-top:1px solid var(--line); padding:64px 0 44px; position:relative; z-index:1; }
-  .foot-grid{ display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:36px; }
-  .foot-grid h5{ font-family:var(--ff-mono); font-size:.7rem; letter-spacing:.2em; text-transform:uppercase; color:var(--chrome-dim); margin:0 0 16px; }
-  .foot-brand{ font-family:var(--ff-display); font-weight:700; font-size:1.4rem; color:var(--white); }
-  .foot-brand .slash{ color:var(--warm); }
-  .foot-grid p{ color:var(--chrome-dim); font-size:.92rem; margin:12px 0 0; max-width:320px; }
-  .foot-grid a.mail{ display:block; font-family:var(--ff-mono); font-size:.86rem; color:var(--chrome); margin-bottom:8px; }
-  .foot-grid a.mail:hover{ color:var(--cold); }
-  .foot-base{ margin-top:48px; padding-top:24px; border-top:1px solid var(--line); display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; font-family:var(--ff-mono); font-size:.72rem; letter-spacing:.08em; color:var(--chrome-dim); text-transform:uppercase; }
+  /* ---------- JOIN ---------- */
+  .join-box{ max-width:720px; margin:0 auto; padding:46px 32px; text-align:center; }
+  .join-box h2{ font-size:clamp(2rem,5vw,3rem); }
+  .join-box p{ color:var(--dim); max-width:520px; margin:16px auto 0; }
+  /* TODO: replace .form-slot with the real interest-form embed
+     (paste a Google Form / Typeform / Luma <iframe> where noted). */
+  .form-slot{ margin-top:32px; border:var(--bd) dashed var(--line-2); background:repeating-linear-gradient(45deg, rgba(53,255,157,.04) 0 12px, transparent 12px 24px); padding:44px 24px; font-family:var(--ff-mono); color:var(--dim); font-size:.82rem; letter-spacing:.08em; }
+  .form-slot .big{ font-family:var(--ff-display); font-size:1.1rem; color:var(--white); letter-spacing:0; margin-bottom:8px; }
+  .join-box .btn{ margin-top:28px; }
+  .contacts{ display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:34px; }
+  .contacts a{ font-family:var(--ff-mono); font-size:.82rem; color:var(--text); border:var(--bd) solid var(--line-2); padding:9px 14px; transition:color .2s,border-color .2s,box-shadow .25s; }
+  .contacts a:hover{ color:var(--green); border-color:var(--green); box-shadow:var(--glow-g); }
+
+  /* ================= FOOTER ================= */
+  footer{ border-top:var(--bd) solid var(--line-2); position:relative; z-index:1; }
+  .foot-inner{ max-width:var(--maxw); margin:0 auto; padding:26px 24px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px 24px; font-family:var(--ff-mono); font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:var(--dim); }
+  .foot-inner b{ color:var(--text); }
 
   /* focus visibility */
-  a:focus-visible, button:focus-visible, summary:focus-visible, .btn:focus-visible{ outline:2px solid var(--hot); outline-offset:3px; }
+  a:focus-visible,button:focus-visible,summary:focus-visible,.btn:focus-visible,.tab:focus-visible{ outline:2px solid var(--cyan); outline-offset:3px; }
 
-  /* ============ RESPONSIVE ============ */
+  /* ================= RESPONSIVE ================= */
   @media (max-width:900px){
-    .about-grid{ grid-template-columns:1fr; }
+    .home-grid{ grid-template-columns:1fr; }
     .tracks{ grid-template-columns:1fr; }
     .res-grid{ grid-template-columns:1fr 1fr; }
     .fmt{ grid-template-columns:1fr 1fr; }
-    .foot-grid{ grid-template-columns:1fr 1fr; }
+    .hosts{ grid-template-columns:1fr; }
   }
-  @media (max-width:640px){
-    nav.links{ display:none; }
-    nav.links.open{ display:flex; position:absolute; top:64px; left:0; right:0; flex-direction:column; align-items:flex-start; gap:18px; padding:22px 24px; background:var(--bg-2); border-bottom:1px solid var(--line); }
-    .navtoggle{ display:block; }
-    .nav-inner .btn.desktop{ display:none; }
+  @media (max-width:680px){
+    .top-inner{ flex-direction:column; height:auto; padding:12px 16px 14px; gap:10px; }
+    nav.tabs{ width:100%; justify-content:flex-start; }
+    section.view{ padding:44px 20px 72px; }
+    #page-home h1{ font-size:clamp(1.7rem,9vw,3rem); white-space:nowrap; }
+    .clock .num{ font-size:clamp(1.9rem,11vw,2.8rem); }
     .res-grid{ grid-template-columns:1fr; }
     .fmt{ grid-template-columns:1fr; }
-    .foot-grid{ grid-template-columns:1fr; }
+  }
+  @media (max-width:420px){
     .clock{ grid-template-columns:1fr 1fr; }
-    section{ padding:72px 0; }
-    .hero h1{ font-size:clamp(1.85rem, 9.2vw, 3.4rem); white-space:nowrap; }
-    .hero h1 .sls{ letter-spacing:-.03em; }
-    .readout{ padding:18px; }
-    .readout-top .label{ font-size:.66rem; letter-spacing:.12em; }
-    .readout-top .tele{ display:none; }
-    .cell .num{ font-size:clamp(2rem,12vw,3rem); }
+    .clock .cell:nth-child(2){ border-right:0; }
+    .clock .cell:nth-child(1),.clock .cell:nth-child(2){ border-bottom:var(--bd) solid var(--line-2); }
   }
 </style>
 </head>
 <body>
 
-<div class="atmos" aria-hidden="true">
-  <div class="bloom"></div>
-  <div class="grid"></div>
-  <div class="scan"></div>
+<!-- ================= LOADING SCREEN ================= -->
+<div id="boot" aria-hidden="true">
+  <div class="bootlogo">GREEN<span class="sl">//</span>COMPUTE</div>
+  <div class="eq"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="bootline" id="bootline">Initializing sustainability core</div>
+  <div class="boottrack"><div class="bootfill" id="bootfill"></div></div>
+  <div class="bootpct" id="bootpct">000</div>
 </div>
 
-<!-- ============ NAV ============ -->
-<header class="nav">
-  <div class="wrap nav-inner">
-    <a href="#top" class="brand"><span class="dot"></span>GREEN<span class="slash">//</span>COMPUTE</a>
-    <nav class="links" id="navlinks">
-      <a href="#about">Brief</a>
-      <a href="#tracks">Tracks</a>
-      <a href="#resources">Data</a>
-      <a href="#format">Format</a>
-      <a href="#sponsors">Partners</a>
-      <a href="#faq">FAQ</a>
+<!-- ================= AMBIENT ================= -->
+<div class="atmos" aria-hidden="true">
+  <div class="aura"></div>
+  <div class="grid"></div>
+  <div class="energy" id="energy"></div>
+</div>
+
+<!-- ================= HEADER / TABS ================= -->
+<header class="top">
+  <div class="top-inner">
+    <div class="brand" data-goto="home" role="button" tabindex="0"><span class="led"></span>GREEN<span class="sl">//</span>COMPUTE</div>
+    <nav class="tabs" role="tablist" aria-label="Sections">
+      <button class="tab on" role="tab" data-tab="home"   aria-selected="true">Home</button>
+      <button class="tab"    role="tab" data-tab="tracks" aria-selected="false">Tracks</button>
+      <button class="tab"    role="tab" data-tab="data"   aria-selected="false">Data</button>
+      <button class="tab"    role="tab" data-tab="event"  aria-selected="false">Event</button>
+      <button class="tab"    role="tab" data-tab="join"   aria-selected="false">Join</button>
     </nav>
-    <a href="#register" class="btn desktop">Register Interest</a>
-    <button class="navtoggle" id="navtoggle" aria-label="Toggle menu" aria-expanded="false">MENU</button>
   </div>
 </header>
 
-<main id="top">
+<main>
 
-<!-- ============ HERO ============ -->
-<section class="hero">
-  <div class="wrap">
-    <div class="hero-status">
-      <span class="eyebrow">SYS.STATUS // EVENT INBOUND</span>
-      <span class="status-chip"><span class="live"></span>Registration open soon</span>
-      <span class="status-chip">NYU · New York City</span>
-    </div>
-
-    <h1><span class="grn">GREEN</span><span class="sls">//</span><span class="grn">COMPUTE</span></h1>
-    <p class="hero-sub">A weekend hackathon to <b>measure, reuse, and reduce</b> the environmental footprint of data centers — the machines that run our whole digital world. Build tools that turn wasted heat and retired hardware into <b>provable</b> climate wins.</p>
-
-    <div class="hero-cta">
-      <a href="#register" class="btn">Register Interest ►</a>
-      <a href="#tracks" class="btn ghost">View the Tracks</a>
-    </div>
-
-    <!-- ===== COUNTDOWN CONSOLE (signature) ===== -->
-    <div class="console readout" role="timer" aria-label="Countdown to the hackathon">
-      <div class="readout-top">
-        <span class="label">T-MINUS TO IGNITION // <b>OCT 02 · 2026</b></span>
-        <span class="tele" id="tele">TELEMETRY · SYNC OK</span>
+  <!-- ============ HOME ============ -->
+  <div class="page active" id="page-home" role="tabpanel">
+    <section class="view flow">
+      <div class="hero-status">
+        <span class="eyebrow">SYS.STATUS // EVENT INBOUND</span>
+        <span class="chip"><span class="dot"></span>Registration open soon</span>
+        <span class="chip">NYU · New York City</span>
       </div>
-      <div class="clock" aria-live="polite">
-        <div class="cell"><span class="num" id="d">00</span><span class="cap">Days</span></div>
-        <div class="cell"><span class="num" id="h">00</span><span class="cap">Hours</span></div>
-        <div class="cell"><span class="num" id="m">00</span><span class="cap">Minutes</span></div>
-        <div class="cell"><span class="num" id="s">00</span><span class="cap">Seconds</span></div>
+      <h1><span class="grad-text">GREEN//COMPUTE</span></h1>
+      <p class="hero-sub">A weekend hackathon to <b>measure, reuse, and reduce</b> the environmental footprint of data centers — the machines that run our whole digital world. Build tools that turn wasted heat and retired hardware into <b>provable</b> climate wins.</p>
+      <div class="hero-cta">
+        <a class="btn" data-goto="join" href="#join">Register Interest ►</a>
+        <a class="btn ghost" data-goto="tracks" href="#tracks">View the Tracks</a>
       </div>
-      <div class="readout-bar"><i id="bar"></i></div>
-      <div class="readout-foot">
-        <span>NODE: NYU-BAC-ML</span>
-        <span id="pct">LOAD 00%</span>
-        <span>MODE: SUSTAINABILITY</span>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- ============ ABOUT / BRIEF ============ -->
-<section id="about">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow">The Brief</span>
-      <h2>Digital infrastructure has a <span class="thermal-text">heat & waste</span> problem.</h2>
-    </div>
-    <div class="about-grid">
-      <div class="about-copy">
-        <p>Data centers are the backbone of the modern economy — and they're incredibly energy-intensive. They reject enormous amounts of low-grade heat, and they retire servers long before those machines are actually used up. Both are wasted resources with a real carbon cost.</p>
-        <p>Over one weekend, teams of students, engineers, and data scientists will build tools that quantify that impact and prove the upside of doing better. You don't need to be an HVAC engineer — we hand you a <b style="color:var(--white)">Data &amp; Formula Packet</b> with the benchmarks, emission factors, and validated formulas to build something mathematically sound.</p>
-        <div class="thread">
-          <span>Common thread // both tracks</span>
-          Every project simulates the carbon footprint and environmental impact of a data center — then makes the case for reuse in numbers a city planner would believe.
+      <!-- countdown -->
+      <div>
+        <div class="clock" role="timer" aria-label="Countdown to the hackathon">
+          <div class="cell"><span class="num" id="d">00</span><span class="cap">Days</span></div>
+          <div class="cell"><span class="num" id="h">00</span><span class="cap">Hours</span></div>
+          <div class="cell"><span class="num" id="m">00</span><span class="cap">Minutes</span></div>
+          <div class="cell"><span class="num" id="s">00</span><span class="cap">Seconds</span></div>
+        </div>
+        <div class="clock-foot">
+          <span>T-MINUS TO IGNITION // <b>OCT 02 · 2026</b></span>
+          <div class="bar"><i id="bar"></i></div>
+          <span id="pct">LOAD 00%</span>
         </div>
       </div>
-      <div class="facts">
-        <div class="console fact"><span class="k">Date</span><span class="v">October 2, 2026</span><span class="m">// mark your calendar</span></div>
-        <div class="console fact"><span class="k">Tracks</span><span class="v">Two challenges</span><span class="m">// pick your lane</span></div>
-        <div class="console fact"><span class="k">Hosted by</span><span class="v">NYU BAC · ML Team</span><span class="m">// with Tech@NYU</span></div>
-        <div class="console fact"><span class="k">Open to</span><span class="v">Builders &amp; data folk</span><span class="m">// no HVAC degree required</span></div>
+
+      <!-- brief -->
+      <div class="home-grid">
+        <div>
+          <span class="eyebrow">The Brief</span>
+          <h2 style="font-size:clamp(1.7rem,4vw,2.4rem);margin:14px 0 18px;">Digital infrastructure has a <span class="grad-text">heat &amp; waste</span> problem.</h2>
+          <p>Data centers are the backbone of the modern economy — and they're incredibly energy-intensive. They reject enormous amounts of low-grade heat, and they retire servers long before those machines are used up. Both are wasted resources with a real carbon cost.</p>
+          <p>Over one weekend, teams build tools that quantify that impact and prove the upside of doing better. You don't need to be an HVAC engineer — we hand you a <b style="color:var(--white)">Data &amp; Formula Packet</b> with the benchmarks, emission factors, and validated formulas to build something mathematically sound.</p>
+          <div class="thread"><span>Common thread // both tracks</span>Every project simulates the carbon footprint and environmental impact of a data center — then makes the case for reuse in numbers a city planner would believe.</div>
+        </div>
+        <div class="facts">
+          <div class="panel fact"><span class="k">Date</span><span class="v">October 2, 2026</span><span class="m">// mark your calendar</span></div>
+          <div class="panel fact"><span class="k">Tracks</span><span class="v">Two challenges</span><span class="m">// pick your lane</span></div>
+          <div class="panel fact"><span class="k">Hosted by</span><span class="v">NYU BAC · ML Team</span><span class="m">// with Tech@NYU</span></div>
+          <div class="panel fact"><span class="k">Open to</span><span class="v">Builders &amp; data folk</span><span class="m">// no HVAC degree required</span></div>
+        </div>
       </div>
-    </div>
+    </section>
   </div>
-</section>
 
-<div class="wrap"><div class="divider"></div></div>
-
-<!-- ============ TRACKS ============ -->
-<section id="tracks">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow">Choose Your Challenge</span>
-      <h2>Two tracks. One mission: <span class="thermal-text">provable</span> sustainability.</h2>
-      <p>Both briefs are still being finalized with our partners — here's where they're headed. Full packets drop at kickoff.</p>
-    </div>
-    <div class="tracks">
-
-      <article class="console track">
-        <span class="idx">TRACK 01</span>
-        <h3>Waste Heat Reuse</h3>
-        <span class="draft">Draft · brief evolving</span>
-        <p>Build an interactive simulator that lets engineers model integrating <b style="color:var(--chrome)">Waste Heat Reuse</b> into a data center — capturing rejected heat for district heating, greenhouses, or aquaculture instead of dumping it.</p>
-        <ul>
-          <li>Input baseline specs: IT load, PUE, WUE, cooling tech, climate</li>
-          <li>Model heat-pump uplift vs. water &amp; energy saved by skipping cooling towers</li>
-          <li>Output adjusted PUE, Energy Reuse Factor, and CO₂e avoided</li>
-          <li>Judged on accuracy, UX, innovation &amp; completeness</li>
-        </ul>
-        <span class="foot">Data &amp; Formula Packet provided ►</span>
-      </article>
-
-      <article class="console track">
-        <span class="idx">TRACK 02</span>
-        <h3>Second-Life Hardware</h3>
-        <span class="draft">Draft · brief evolving</span>
-        <p>Servers get retired before their useful life runs out. Build a tool that extends the life of <b style="color:var(--chrome)">OCP hardware</b> through reuse and refurbishment — and wrap it in a business model that keeps gear in circulation.</p>
-        <ul>
-          <li>Estimate a server's footprint from components + manufacturing</li>
-          <li>Assess how much useful life remains in the hardware</li>
-          <li>Recommend reuse opportunities that cut waste and cost</li>
-          <li>Grounded in AI, public datasets &amp; OCP specs</li>
-        </ul>
-        <span class="foot">Data &amp; Formula Packet provided ►</span>
-      </article>
-
-    </div>
-  </div>
-</section>
-
-<!-- ============ RESOURCES / DATA ============ -->
-<section id="resources">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow">The Toolkit</span>
-      <h2>Datasets we'll point you to.</h2>
-      <p>Vetted public sources for embodied carbon, grid intensity, and lifecycle impact — so your numbers hold up.</p>
-    </div>
-    <div class="res-grid">
-      <div class="res"><span class="idx">01</span><span class="tag">Embodied carbon</span><h4>EPA USEEIO</h4><p>Estimate embodied carbon of components when detailed supplier data isn't available.</p></div>
-      <div class="res"><span class="idx">02</span><span class="tag">Lifecycle</span><h4>NREL LCI</h4><p>Lifecycle inventories for metals, manufacturing, transportation, electricity, and construction materials.</p></div>
-      <div class="res"><span class="idx">03</span><span class="tag">Scope 2</span><h4>Electricity Maps</h4><p>Real-time grid carbon intensity, historical data, and renewable mix by country and region.</p></div>
-      <div class="res"><span class="idx">04</span><span class="tag">Comparisons</span><h4>Our World in Data</h4><p>CO₂ emissions, energy production, renewable adoption, and climate indicators across countries.</p></div>
-      <div class="res"><span class="idx">05</span><span class="tag">Projections</span><h4>IEA</h4><p>Energy projections from the International Energy Agency for forward-looking scenarios.</p></div>
-      <div class="res"><span class="idx">06</span><span class="tag">Equipment</span><h4>Boavizta</h4><p>Server embodied carbon, storage &amp; network impacts, usage models, and open APIs for product footprints.</p></div>
-    </div>
-  </div>
-</section>
-
-<div class="wrap"><div class="divider"></div></div>
-
-<!-- ============ FORMAT ============ -->
-<section id="format">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow">Logistics</span>
-      <h2>How the weekend runs.</h2>
-      <p>Details are still landing — here's the shape of it. Exact schedule and venue confirmed closer to the date.</p>
-    </div>
-    <div class="fmt">
-      <div class="console cell2"><div class="big">Oct 02</div><div class="lab">Kickoff</div><div class="sub">Opening, team formation &amp; the Data Packet drop.</div></div>
-      <div class="console cell2"><div class="big">2</div><div class="lab">Tracks</div><div class="sub">Waste heat reuse or hardware second-life — your pick.</div></div>
-      <div class="console cell2"><div class="big">NYC</div><div class="lab">Venue</div><div class="sub">NYU · exact location announced soon.</div></div>
-      <div class="console cell2"><div class="big">TBA</div><div class="lab">Prizes</div><div class="sub">Sponsor prizes &amp; mentorship — stay tuned.</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ SPONSORS / HOSTS ============ -->
-<section id="sponsors">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow">Powered By</span>
-      <h2>Partners in the loop.</h2>
-      <p>The people building — and rethinking — the physical internet.</p>
-    </div>
-  </div>
-  <div class="marq" aria-label="Sponsors">
-    <div class="marq-track">
-      <span class="sp">Infrastructure Masons</span><span class="sp">Grundfos</span><span class="sp">OCP</span><span class="sp">Tech@NYU</span><span class="sp">NYU BAC</span>
-      <span class="sp" aria-hidden="true">Infrastructure Masons</span><span class="sp" aria-hidden="true">Grundfos</span><span class="sp" aria-hidden="true">OCP</span><span class="sp" aria-hidden="true">Tech@NYU</span><span class="sp" aria-hidden="true">NYU BAC</span>
-    </div>
-  </div>
-  <div class="wrap">
-    <div class="hosts">
-      <div class="console host">
-        <span class="role">Organizer</span>
-        <h4>NYU BAC — Machine Learning Team</h4>
-        <p>The Business Analytics Club's ML Team has built projects like an LLM trained on tacit knowledge from data center industry leaders, and presented at DCD Connect. This hackathon is the next step.</p>
+  <!-- ============ TRACKS ============ -->
+  <div class="page" id="page-tracks" role="tabpanel">
+    <section class="view flow">
+      <div class="sec-head">
+        <span class="eyebrow">Choose Your Challenge</span>
+        <h2>Two tracks. One mission: <span class="grad-text">provable</span> sustainability.</h2>
+        <p>Both briefs are still being finalized with our partners — here's where they're headed. Full packets drop at kickoff.</p>
       </div>
-      <div class="console host">
-        <span class="role">Co-host &amp; Sponsors</span>
-        <h4>Tech@NYU · iMasons · Grundfos · OCP</h4>
-        <p>Tech@NYU helps run the event on campus. Infrastructure Masons, Grundfos, and OCP back the whole hackathon — bringing the industry data, hardware specs, and real-world problems.</p>
+      <div class="tracks">
+        <article class="panel track">
+          <span class="idx">TRACK 01</span>
+          <h3>Waste Heat Reuse</h3>
+          <span class="draft">Draft · brief evolving</span>
+          <p>Build an interactive simulator that lets engineers model integrating <b style="color:var(--text)">Waste Heat Reuse</b> into a data center — capturing rejected heat for district heating, greenhouses, or aquaculture instead of dumping it.</p>
+          <ul>
+            <li>Input baseline specs: IT load, PUE, WUE, cooling tech, climate</li>
+            <li>Model heat-pump uplift vs. water &amp; energy saved by skipping cooling towers</li>
+            <li>Output adjusted PUE, Energy Reuse Factor, and CO₂e avoided</li>
+            <li>Judged on accuracy, UX, innovation &amp; completeness</li>
+          </ul>
+          <span class="foot">Data &amp; Formula Packet provided ►</span>
+        </article>
+        <article class="panel track">
+          <span class="idx">TRACK 02</span>
+          <h3>Second-Life Hardware</h3>
+          <span class="draft">Draft · brief evolving</span>
+          <p>Servers get retired before their useful life runs out. Build a tool that extends the life of <b style="color:var(--text)">OCP hardware</b> through reuse and refurbishment — and wrap it in a business model that keeps gear in circulation.</p>
+          <ul>
+            <li>Estimate a server's footprint from components + manufacturing</li>
+            <li>Assess how much useful life remains in the hardware</li>
+            <li>Recommend reuse opportunities that cut waste and cost</li>
+            <li>Grounded in AI, public datasets &amp; OCP specs</li>
+          </ul>
+          <span class="foot">Data &amp; Formula Packet provided ►</span>
+        </article>
       </div>
-    </div>
+    </section>
   </div>
-</section>
 
-<!-- ============ REGISTER ============ -->
-<section id="register" class="register">
-  <div class="wrap">
-    <div class="console reg-box">
-      <span class="eyebrow" style="justify-content:center;">Join the Waitlist</span>
-      <h2>Want in?</h2>
-      <p>Drop your details and we'll send you the kickoff info, the Data &amp; Formula Packet, and everything you need to show up ready to build.</p>
-      <!-- TODO: replace .form-slot with the real interest-form embed, e.g.
-           <iframe src="https://forms.gle/..." width="100%" height="640" frameborder="0"></iframe> -->
-      <div class="form-slot">
-        <div class="big">◪ INTEREST FORM — EMBED PENDING</div>
-        [ paste Google Form / Typeform / Luma iframe here ]
+  <!-- ============ DATA ============ -->
+  <div class="page" id="page-data" role="tabpanel">
+    <section class="view flow">
+      <div class="sec-head">
+        <span class="eyebrow">The Toolkit</span>
+        <h2>Datasets we'll point you to.</h2>
+        <p>Vetted public sources for embodied carbon, grid intensity, and lifecycle impact — so your numbers hold up.</p>
       </div>
-      <a href="mailto:jjp9203@nyu.edu?subject=GREEN//COMPUTE%20Hackathon%20Interest" class="btn">Email us to get on the list ►</a>
-    </div>
+      <div class="res-grid">
+        <div class="res"><span class="idx">01</span><span class="tag">Embodied carbon</span><h4>EPA USEEIO</h4><p>Estimate embodied carbon of components when detailed supplier data isn't available.</p></div>
+        <div class="res"><span class="idx">02</span><span class="tag">Lifecycle</span><h4>NREL LCI</h4><p>Lifecycle inventories for metals, manufacturing, transportation, electricity, and construction materials.</p></div>
+        <div class="res"><span class="idx">03</span><span class="tag">Scope 2</span><h4>Electricity Maps</h4><p>Real-time grid carbon intensity, historical data, and renewable mix by country and region.</p></div>
+        <div class="res"><span class="idx">04</span><span class="tag">Comparisons</span><h4>Our World in Data</h4><p>CO₂ emissions, energy production, renewable adoption, and climate indicators across countries.</p></div>
+        <div class="res"><span class="idx">05</span><span class="tag">Projections</span><h4>IEA</h4><p>Energy projections from the International Energy Agency for forward-looking scenarios.</p></div>
+        <div class="res"><span class="idx">06</span><span class="tag">Equipment</span><h4>Boavizta</h4><p>Server embodied carbon, storage &amp; network impacts, usage models, and open APIs for product footprints.</p></div>
+      </div>
+    </section>
   </div>
-</section>
 
-<!-- ============ FAQ ============ -->
-<section id="faq">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow">Signal Check</span>
-      <h2>Frequently asked.</h2>
-    </div>
-    <div class="faq">
-      <details class="q"><summary>Do I need a background in data centers or thermodynamics? <span class="pm">+</span></summary><div class="a">No. We provide a Data &amp; Formula Packet with the benchmarks, emission factors, and validated formulas. If you can code or work with data, you can build a strong project.</div></details>
-      <details class="q"><summary>Who can participate? <span class="pm">+</span></summary><div class="a">Students, engineers, and data scientists — solo or in teams. Full eligibility and team-size details are being finalized and will be posted here.</div></details>
-      <details class="q"><summary>Which track should I pick? <span class="pm">+</span></summary><div class="a">Track 01 (Waste Heat Reuse) leans thermodynamics + simulation UX. Track 02 (Second-Life Hardware) leans lifecycle data + business modeling. Both center on simulating a data center's environmental impact — choose the story you want to tell.</div></details>
-      <details class="q"><summary>What do I build with? <span class="pm">+</span></summary><div class="a">Anything — a web app, a dashboard, even an advanced spreadsheet tool. You'll get pointed to public datasets like Electricity Maps, Boavizta, and the EPA USEEIO database.</div></details>
-      <details class="q"><summary>How much does it cost? <span class="pm">+</span></summary><div class="a">Details on cost, venue, and schedule are being confirmed. Get on the waitlist and we'll send everything as it locks in.</div></details>
-    </div>
+  <!-- ============ EVENT ============ -->
+  <div class="page" id="page-event" role="tabpanel">
+    <section class="view flow">
+      <div class="sec-head">
+        <span class="eyebrow">Logistics</span>
+        <h2>How the weekend runs.</h2>
+        <p>Details are still landing — here's the shape of it. Exact schedule and venue confirmed closer to the date.</p>
+      </div>
+      <div class="fmt">
+        <div class="panel cell2"><div class="big">Oct 02</div><div class="lab">Kickoff</div><div class="sub">Opening, team formation &amp; the Data Packet drop.</div></div>
+        <div class="panel cell2"><div class="big">2</div><div class="lab">Tracks</div><div class="sub">Waste heat reuse or hardware second-life — your pick.</div></div>
+        <div class="panel cell2"><div class="big">NYC</div><div class="lab">Venue</div><div class="sub">NYU · exact location announced soon.</div></div>
+        <div class="panel cell2"><div class="big">TBA</div><div class="lab">Prizes</div><div class="sub">Sponsor prizes &amp; mentorship — stay tuned.</div></div>
+      </div>
+
+      <span class="eyebrow" style="margin-bottom:22px;">Powered By</span>
+      <div class="marq" aria-label="Partners">
+        <div class="marq-track">
+          <span class="sp">Infrastructure Masons</span><span class="sp">Grundfos</span><span class="sp">OCP</span><span class="sp">Tech@NYU</span><span class="sp">NYU BAC</span>
+          <span class="sp" aria-hidden="true">Infrastructure Masons</span><span class="sp" aria-hidden="true">Grundfos</span><span class="sp" aria-hidden="true">OCP</span><span class="sp" aria-hidden="true">Tech@NYU</span><span class="sp" aria-hidden="true">NYU BAC</span>
+        </div>
+      </div>
+      <div class="hosts">
+        <div class="panel host">
+          <span class="role">Organizer</span>
+          <h4>NYU BAC — Machine Learning Team</h4>
+          <p>The Business Analytics Club's ML Team has built projects like an LLM trained on tacit knowledge from data center industry leaders, and presented at DCD Connect. This hackathon is the next step.</p>
+        </div>
+        <div class="panel host">
+          <span class="role">Co-host &amp; Sponsors</span>
+          <h4>Tech@NYU · iMasons · Grundfos · OCP</h4>
+          <p>Tech@NYU helps run the event on campus. Infrastructure Masons, Grundfos, and OCP back the whole hackathon — bringing the industry data, hardware specs, and real-world problems.</p>
+        </div>
+      </div>
+
+      <span class="eyebrow" style="margin-bottom:22px;">Signal Check</span>
+      <div class="faq">
+        <details class="q"><summary>Do I need a background in data centers or thermodynamics? <span class="pm">+</span></summary><div class="a">No. We provide a Data &amp; Formula Packet with the benchmarks, emission factors, and validated formulas. If you can code or work with data, you can build a strong project.</div></details>
+        <details class="q"><summary>Who can participate? <span class="pm">+</span></summary><div class="a">Students, engineers, and data scientists — solo or in teams. Full eligibility and team-size details are being finalized and will be posted here.</div></details>
+        <details class="q"><summary>Which track should I pick? <span class="pm">+</span></summary><div class="a">Track 01 (Waste Heat Reuse) leans thermodynamics + simulation UX. Track 02 (Second-Life Hardware) leans lifecycle data + business modeling. Both center on simulating a data center's environmental impact — choose the story you want to tell.</div></details>
+        <details class="q"><summary>What do I build with? <span class="pm">+</span></summary><div class="a">Anything — a web app, a dashboard, even an advanced spreadsheet tool. You'll get pointed to public datasets like Electricity Maps, Boavizta, and the EPA USEEIO database.</div></details>
+        <details class="q"><summary>How much does it cost? <span class="pm">+</span></summary><div class="a">Details on cost, venue, and schedule are being confirmed. Get on the waitlist and we'll send everything as it locks in.</div></details>
+      </div>
+    </section>
   </div>
-</section>
+
+  <!-- ============ JOIN ============ -->
+  <div class="page" id="page-join" role="tabpanel">
+    <section class="view flow">
+      <div class="panel join-box">
+        <span class="eyebrow" style="justify-content:center;">Join the Waitlist</span>
+        <h2>Want in?</h2>
+        <p>Drop your details and we'll send you the kickoff info, the Data &amp; Formula Packet, and everything you need to show up ready to build.</p>
+        <!-- TODO: replace .form-slot with the real interest-form embed, e.g.
+             <iframe src="https://forms.gle/..." width="100%" height="640" style="border:0"></iframe> -->
+        <div class="form-slot">
+          <div class="big">◪ INTEREST FORM — EMBED PENDING</div>
+          [ paste Google Form / Typeform / Luma iframe here ]
+        </div>
+        <a class="btn" href="mailto:jjp9203@nyu.edu?subject=GREEN//COMPUTE%20Hackathon%20Interest">Email us to get on the list ►</a>
+        <div class="contacts">
+          <a href="mailto:jjp9203@nyu.edu">jjp9203@nyu.edu</a>
+          <a href="mailto:oal2029@nyu.edu">oal2029@nyu.edu</a>
+          <a href="mailto:vm2720@nyu.edu">vm2720@nyu.edu</a>
+        </div>
+      </div>
+    </section>
+  </div>
 
 </main>
 
-<!-- ============ FOOTER ============ -->
-<footer id="contact">
-  <div class="wrap">
-    <div class="foot-grid">
-      <div>
-        <div class="foot-brand">GREEN<span class="slash">//</span>COMPUTE</div>
-        <p>A sustainable data center hackathon by the NYU Business Analytics Club Machine Learning Team, with Tech@NYU.</p>
-      </div>
-      <div>
-        <h5>Contact</h5>
-        <a class="mail" href="mailto:jjp9203@nyu.edu">jjp9203@nyu.edu</a>
-        <a class="mail" href="mailto:oal2029@nyu.edu">oal2029@nyu.edu</a>
-        <a class="mail" href="mailto:vm2720@nyu.edu">vm2720@nyu.edu</a>
-      </div>
-      <div>
-        <h5>Jump to</h5>
-        <a class="mail" href="#tracks">Tracks</a>
-        <a class="mail" href="#resources">Datasets</a>
-        <a class="mail" href="#register">Register</a>
-      </div>
-    </div>
-    <div class="foot-base">
-      <span>© 2026 NYU BAC · ML Team</span>
-      <span>Partners: iMasons · Grundfos · OCP</span>
-      <span>// Oct 02 · 2026 · New York City</span>
-    </div>
+<footer>
+  <div class="foot-inner">
+    <span>© 2026 <b>NYU BAC · ML Team</b></span>
+    <span>Partners: iMasons · Grundfos · OCP · Tech@NYU</span>
+    <span>// Oct 02 · 2026 · New York City</span>
   </div>
 </footer>
 
 <script>
-  // ===== COUNTDOWN =====
+  const el = id => document.getElementById(id);
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ===== ENERGY PARTICLES ===== */
+  (function(){
+    const box = el("energy");
+    if (!box || reduce) return;
+    const N = 16;
+    for (let i=0;i<N;i++){
+      const p = document.createElement("i");
+      const dur = 7 + Math.random()*9;
+      p.style.left = (Math.random()*100).toFixed(2) + "%";
+      p.style.animationDuration = dur.toFixed(2) + "s";
+      p.style.animationDelay = (-Math.random()*dur).toFixed(2) + "s";
+      const c = ["var(--green)","var(--cyan)","var(--mint)","var(--blue)"][i%4];
+      p.style.background = c;
+      p.style.boxShadow = "0 0 12px " + c;
+      const sz = (2 + Math.random()*3).toFixed(1);
+      p.style.width = p.style.height = sz + "px";
+      box.appendChild(p);
+    }
+  })();
+
+  /* ===== TABS ===== */
+  const tabs  = [...document.querySelectorAll(".tab")];
+  const pages = [...document.querySelectorAll(".page")];
+  const names = tabs.map(t => t.dataset.tab);
+
+  function activate(name, push){
+    if (!names.includes(name)) name = "home";
+    tabs.forEach(t => {
+      const on = t.dataset.tab === name;
+      t.classList.toggle("on", on);
+      t.setAttribute("aria-selected", on ? "true" : "false");
+    });
+    pages.forEach(p => p.classList.toggle("active", p.id === "page-" + name));
+    if (push) history.replaceState(null, "", "#" + name);
+    window.scrollTo({ top:0, behavior: reduce ? "auto" : "smooth" });
+  }
+
+  tabs.forEach(t => t.addEventListener("click", () => activate(t.dataset.tab, true)));
+  document.querySelectorAll("[data-goto]").forEach(a => {
+    a.addEventListener("click", e => { e.preventDefault(); activate(a.dataset.goto, true); });
+    a.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); activate(a.dataset.goto, true); } });
+  });
+  // arrow-key navigation across tabs
+  document.querySelector(".tabs").addEventListener("keydown", e => {
+    if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+    const i = names.indexOf(document.querySelector(".tab.on").dataset.tab);
+    const j = (i + (e.key === "ArrowRight" ? 1 : names.length - 1)) % names.length;
+    activate(names[j], true); tabs[j].focus();
+  });
+  activate((location.hash || "#home").slice(1), false);
+
+  /* ===== COUNTDOWN ===== */
   // TODO: confirm exact start time + timezone. Default: Oct 2 2026, 09:00 ET (UTC-4, EDT).
   const TARGET = new Date("2026-10-02T09:00:00-04:00").getTime();
-  // Reference point so the load bar shows elapsed progress toward the event.
   const ORIGIN = new Date("2026-09-01T00:00:00-04:00").getTime();
-
-  const el = id => document.getElementById(id);
   const pad = n => String(Math.max(0, n)).padStart(2, "0");
+  const last = { d:null, h:null, m:null, s:null };
 
+  function set(id, val){
+    const node = el(id);
+    if (node.textContent !== val){
+      node.textContent = val;
+      if (!reduce){ node.classList.remove("tick"); void node.offsetWidth; node.classList.add("tick"); }
+    }
+  }
   function tick(){
     const now = Date.now();
     let diff = TARGET - now;
-
     if (diff <= 0){
-      el("d").textContent = el("h").textContent = el("m").textContent = el("s").textContent = "00";
-      el("tele").textContent = "STATUS · LIVE";
-      el("bar").style.width = "100%";
-      el("pct").textContent = "LOAD 100%";
-      const lbl = document.querySelector(".readout-top .label");
-      if (lbl) lbl.innerHTML = "EVENT IS <b>LIVE</b> // OCT 02 · 2026";
+      ["d","h","m","s"].forEach(i => el(i).textContent = "00");
+      el("bar").style.width = "100%"; el("pct").textContent = "LOAD 100%";
       return;
     }
-
-    const dd = Math.floor(diff / 86400000); diff -= dd * 86400000;
-    const hh = Math.floor(diff / 3600000);  diff -= hh * 3600000;
-    const mm = Math.floor(diff / 60000);     diff -= mm * 60000;
-    const ss = Math.floor(diff / 1000);
-
-    el("d").textContent = pad(dd);
-    el("h").textContent = pad(hh);
-    el("m").textContent = pad(mm);
-    el("s").textContent = pad(ss);
-
-    const total = TARGET - ORIGIN;
-    const done  = now - ORIGIN;
-    const pct   = Math.min(100, Math.max(0, (done / total) * 100));
+    const dd = Math.floor(diff/86400000); diff -= dd*86400000;
+    const hh = Math.floor(diff/3600000);  diff -= hh*3600000;
+    const mm = Math.floor(diff/60000);     diff -= mm*60000;
+    const ss = Math.floor(diff/1000);
+    set("d", pad(dd)); set("h", pad(hh)); set("m", pad(mm)); set("s", pad(ss));
+    const pct = Math.min(100, Math.max(0, ((now-ORIGIN)/(TARGET-ORIGIN))*100));
     el("bar").style.width = pct.toFixed(1) + "%";
     el("pct").textContent = "LOAD " + pad(Math.floor(pct)) + "%";
   }
-  tick();
-  setInterval(tick, 1000);
+  tick(); setInterval(tick, 1000);
 
-  // ===== MOBILE NAV =====
-  const toggle = el("navtoggle"), links = el("navlinks");
-  toggle.addEventListener("click", () => {
-    const open = links.classList.toggle("open");
-    toggle.setAttribute("aria-expanded", open ? "true" : "false");
-  });
-  links.addEventListener("click", e => {
-    if (e.target.tagName === "A"){ links.classList.remove("open"); toggle.setAttribute("aria-expanded","false"); }
-  });
+  /* ===== LOADING SCREEN ===== */
+  (function(){
+    const boot = el("boot"), fill = el("bootfill"), pctb = el("bootpct"), line = el("bootline");
+    const msgs = ["Initializing sustainability core","Loading grid carbon data","Calibrating heat sensors","Syncing telemetry"];
+    let p = 0, mi = 0;
+    function finish(){
+      boot.classList.add("gone");
+      setTimeout(() => boot.remove(), 700);
+    }
+    if (reduce){ fill.style.width = "100%"; pctb.textContent = "100"; finish(); return; }
+    const iv = setInterval(() => {
+      p += Math.random()*16 + 7;
+      if (p >= 100){ p = 100; clearInterval(iv); }
+      fill.style.width = p + "%";
+      pctb.textContent = String(Math.floor(p)).padStart(3, "0");
+      const nm = Math.min(msgs.length-1, Math.floor(p/26));
+      if (nm !== mi){ mi = nm; line.textContent = msgs[mi]; }
+      if (p >= 100){ line.textContent = "Ready"; setTimeout(finish, 280); }
+    }, 150);
+  })();
 </script>
 </body>
 </html>
