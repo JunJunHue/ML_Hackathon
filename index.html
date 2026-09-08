@@ -214,7 +214,8 @@
   .marq:hover .marq-track{ animation-play-state:paused; }
   @media (prefers-reduced-motion:reduce){ .marq-track{ animation:none; flex-wrap:wrap; width:auto; justify-content:center } }
   .logo-chip{ flex:0 0 auto; height:88px; min-width:180px; padding:0 34px; display:flex; align-items:center; justify-content:center;
-    background:var(--panel); border:var(--bd) solid var(--line); border-radius:var(--radius); box-shadow:var(--soft); transition:box-shadow .25s, transform .2s; }
+    background:var(--panel); border:var(--bd) solid var(--line); border-radius:var(--radius); box-shadow:var(--soft); transition:box-shadow .25s, transform .2s;
+    text-decoration:none; color:inherit; }
   .logo-chip:hover{ box-shadow:var(--lift); transform:translateY(-3px); }
   .logo-chip img{ max-height:42px; max-width:210px; width:auto; height:auto; display:block; }
   .logo-chip.text{ font-family:var(--ff-display); font-weight:600; font-size:1.4rem; color:var(--ink); }
@@ -224,6 +225,8 @@
   .host .role{ font-family:var(--ff-label); font-weight:600; font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color:var(--green); }
   .host h4{ font-family:var(--ff-display); font-size:1.35rem; color:var(--ink); margin:12px 0 10px; font-weight:600; }
   .host p{ margin:0; font-size:.96rem; color:var(--dim); }
+  .host h4 a{ text-decoration:underline; text-decoration-color:var(--line); text-underline-offset:4px; text-decoration-thickness:2px; transition:color .2s, text-decoration-color .2s; }
+  .host h4 a:hover{ color:var(--green-d); text-decoration-color:var(--green); }
 
   .faq{ display:grid; gap:12px; max-width:840px; }
   details.q{ border:var(--bd) solid var(--line); border-radius:var(--radius); background:var(--panel); box-shadow:var(--soft); overflow:hidden; }
@@ -251,6 +254,8 @@
   footer{ border-top:var(--bd) solid var(--line); position:relative; z-index:1; background:var(--panel-2); }
   .foot-inner{ max-width:var(--maxw); margin:0 auto; padding:30px 28px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px 24px; font-family:var(--ff-body); font-size:.88rem; color:var(--dim); }
   .foot-inner b{ color:var(--text); font-weight:600; }
+  .foot-inner a{ text-decoration:underline; text-decoration-color:var(--line); text-underline-offset:3px; transition:color .2s, text-decoration-color .2s; }
+  .foot-inner a:hover{ color:var(--green-d); text-decoration-color:var(--green); }
 
   a:focus-visible,button:focus-visible,summary:focus-visible,.btn:focus-visible,.tab:focus-visible{ outline:2px solid var(--green); outline-offset:3px; }
 
@@ -491,29 +496,29 @@
       <span class="eyebrow" style="margin-bottom:24px;">Partners &amp; sponsors</span>
       <div class="marq" aria-label="Partners and sponsors">
         <div class="marq-track">
-          <div class="logo-chip"><img src="assets/bac.png" alt="NYU Business Analytics Club"></div>
-          <div class="logo-chip"><img src="assets/imasons.png" alt="Infrastructure Masons"></div>
-          <div class="logo-chip"><img src="assets/grundfos.png" alt="Grundfos"></div>
-          <div class="logo-chip text">OCP</div>
-          <div class="logo-chip"><img src="assets/technyu.png" alt="tech@nyu"></div>
-          <div class="logo-chip" aria-hidden="true"><img src="assets/bac.png" alt=""></div>
-          <div class="logo-chip" aria-hidden="true"><img src="assets/imasons.png" alt=""></div>
-          <div class="logo-chip" aria-hidden="true"><img src="assets/grundfos.png" alt=""></div>
-          <div class="logo-chip text" aria-hidden="true">OCP</div>
-          <div class="logo-chip" aria-hidden="true"><img src="assets/technyu.png" alt=""></div>
+          <a class="logo-chip" href="https://www.nyusternbac.org/" target="_blank" rel="noopener noreferrer"><img src="assets/bac.png" alt="NYU Business Analytics Club"></a>
+          <a class="logo-chip" href="https://imasons.org/" target="_blank" rel="noopener noreferrer"><img src="assets/imasons.png" alt="Infrastructure Masons"></a>
+          <a class="logo-chip" href="https://www.grundfos.com/" target="_blank" rel="noopener noreferrer"><img src="assets/grundfos.png" alt="Grundfos"></a>
+          <a class="logo-chip text" href="https://www.opencompute.org/" target="_blank" rel="noopener noreferrer" title="Open Compute Project">OCP</a>
+          <a class="logo-chip" href="https://techatnyu.org/" target="_blank" rel="noopener noreferrer"><img src="assets/technyu.png" alt="tech@nyu"></a>
+          <a class="logo-chip" aria-hidden="true" href="https://www.nyusternbac.org/" target="_blank" rel="noopener noreferrer" tabindex="-1"><img src="assets/bac.png" alt=""></a>
+          <a class="logo-chip" aria-hidden="true" href="https://imasons.org/" target="_blank" rel="noopener noreferrer" tabindex="-1"><img src="assets/imasons.png" alt=""></a>
+          <a class="logo-chip" aria-hidden="true" href="https://www.grundfos.com/" target="_blank" rel="noopener noreferrer" tabindex="-1"><img src="assets/grundfos.png" alt=""></a>
+          <a class="logo-chip text" aria-hidden="true" href="https://www.opencompute.org/" target="_blank" rel="noopener noreferrer" tabindex="-1">OCP</a>
+          <a class="logo-chip" aria-hidden="true" href="https://techatnyu.org/" target="_blank" rel="noopener noreferrer" tabindex="-1"><img src="assets/technyu.png" alt=""></a>
         </div>
       </div>
       <div class="hosts">
         <div class="card host">
           <svg class="card-art lg"><use href="#m-tree"/></svg>
           <span class="role">Organizer</span>
-          <h4>NYU BAC — Machine Learning Team</h4>
+          <h4><a href="https://www.nyusternbac.org/" target="_blank" rel="noopener noreferrer">NYU BAC — Machine Learning Team</a></h4>
           <p>The Business Analytics Club's ML Team has built projects like an LLM trained on tacit knowledge from data center industry leaders, and presented at DCD Connect. This hackathon is the next step.</p>
         </div>
         <div class="card host">
           <svg class="card-art lg"><use href="#m-wind"/></svg>
           <span class="role">Co-host &amp; sponsors</span>
-          <h4>Tech@NYU · iMasons · Grundfos · OCP</h4>
+          <h4><a href="https://techatnyu.org/" target="_blank" rel="noopener noreferrer">Tech@NYU</a> · <a href="https://imasons.org/" target="_blank" rel="noopener noreferrer">iMasons</a> · <a href="https://www.grundfos.com/" target="_blank" rel="noopener noreferrer">Grundfos</a> · <a href="https://www.opencompute.org/" target="_blank" rel="noopener noreferrer">OCP</a></h4>
           <p>Tech@NYU helps run the event on campus. Infrastructure Masons, Grundfos, and OCP back the whole hackathon — bringing the industry data, hardware specs, and real-world problems.</p>
         </div>
       </div>
@@ -557,7 +562,7 @@
 <footer>
   <div class="foot-inner">
     <span>© 2026 <b>NYU BAC · ML Team</b></span>
-    <span>Partners: iMasons · Grundfos · OCP · Tech@NYU</span>
+    <span>Partners: <a href="https://imasons.org/" target="_blank" rel="noopener noreferrer">iMasons</a> · <a href="https://www.grundfos.com/" target="_blank" rel="noopener noreferrer">Grundfos</a> · <a href="https://www.opencompute.org/" target="_blank" rel="noopener noreferrer">OCP</a> · <a href="https://techatnyu.org/" target="_blank" rel="noopener noreferrer">Tech@NYU</a></span>
     <span>October 2, 2026 · New York City</span>
   </div>
 </footer>
