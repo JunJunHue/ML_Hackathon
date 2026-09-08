@@ -6,51 +6,51 @@
 <title>BAC Hackathon — NYU Business Analytics Club Sustainable Data Center Hackathon</title>
 <meta name="description" content="A sustainable data center hackathon hosted by the NYU Business Analytics Club ML Team. Waste heat reuse & hardware second-life. Oct 2, 2026.">
 <!-- ============================================================
-     GREEN//COMPUTE — tabbed hackathon site (LED / sustainable theme)
-     NOTE: "GREEN//COMPUTE" is a working event name — swap freely.
-     Countdown target + interest-form embed are marked TODO below.
+     BAC Hackathon — tabbed site (clean / sustainable / light theme)
+     NOTE: "BAC Hackathon" event name, countdown target, and the
+     interest-form embed are marked with TODO comments below.
      ============================================================ -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    /* --- sustainable LED palette: greens + blues, cool --- */
-    --bg:      #04120e;
-    --bg-2:    #061a15;
-    --panel:   #07201b;
-    --panel-2: #09271f;
-    --line:    #13463a;
-    --line-2:  #1c6650;
+    /* --- clean, light, sustainable palette --- */
+    --bg:      #f4f7f0;   /* soft sage paper */
+    --bg-2:    #eaf0e1;
+    --panel:   #ffffff;
+    --panel-2: #fbfdf8;
+    --line:    #e3e9d9;   /* hairline */
+    --line-2:  #d2dcc4;
 
-    --green:   #35ff9d;   /* primary LED green   */
-    --mint:    #12e6bf;   /* teal / mint         */
-    --cyan:    #1fd8ff;   /* LED cyan            */
-    --blue:    #3a9bff;   /* electric blue       */
+    --green:   #2f7d54;   /* natural leaf green */
+    --green-d: #1e5638;   /* deep forest */
+    --mint:    #3a9b78;   /* soft teal */
+    --cyan:    #3c86a8;   /* calm blue */
+    --blue:    #33689a;   /* deeper blue */
 
-    --text:    #cbeee0;
-    --dim:     #6ba394;
-    --white:   #eafff7;
+    --text:    #3a463c;   /* body */
+    --dim:     #6a786a;   /* muted */
+    --ink:     #18271d;   /* headings */
 
-    --grad: linear-gradient(90deg, var(--green) 0%, var(--mint) 34%, var(--cyan) 66%, var(--blue) 100%);
-    --grad-soft: linear-gradient(120deg, rgba(53,255,157,.16), rgba(31,216,255,.14), rgba(58,155,255,.12));
+    --accent:  linear-gradient(90deg, var(--green), var(--mint));
+    --soft:    0 1px 2px rgba(24,39,29,.05), 0 10px 30px -20px rgba(24,39,29,.22);
+    --lift:    0 6px 14px -8px rgba(30,86,56,.30), 0 18px 40px -26px rgba(24,39,29,.28);
 
-    --glow-g: 0 0 16px -2px rgba(53,255,157,.6);
-    --glow-c: 0 0 16px -2px rgba(31,216,255,.55);
+    --ff-display:"Fraunces", Georgia, "Times New Roman", serif;
+    --ff-body:"Inter", system-ui, sans-serif;
+    --ff-label:"Inter", system-ui, sans-serif;
 
-    --ff-display:"Chakra Petch","Segoe UI",system-ui,sans-serif;
-    --ff-body:"Space Grotesk",system-ui,sans-serif;
-    --ff-mono:"Space Mono",ui-monospace,Menlo,monospace;
-
-    --maxw:1160px;
-    --bd:1.5px;   /* strong border width */
+    --maxw:1140px;
+    --bd:1px;
+    --radius:16px;
   }
 
   *{ box-sizing:border-box; }
   html{ overflow-x:hidden; scroll-behavior:smooth; }
   body{
     margin:0; background:var(--bg); color:var(--text);
-    font-family:var(--ff-body); font-size:16px; line-height:1.6;
+    font-family:var(--ff-body); font-size:16px; line-height:1.65;
     -webkit-font-smoothing:antialiased; overflow-x:hidden;
   }
   a{ color:inherit; text-decoration:none; }
@@ -59,242 +59,184 @@
   /* ================= LOADING SCREEN ================= */
   #boot{
     position:fixed; inset:0; z-index:1000; background:var(--bg);
-    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:26px;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:22px;
     transition:opacity .6s ease, visibility .6s;
   }
   #boot.gone{ opacity:0; visibility:hidden; }
-  #boot .bootlogo{
-    font-family:var(--ff-display); font-weight:700; font-size:clamp(2rem,7vw,3.4rem);
-    letter-spacing:.02em; color:var(--white); position:relative;
-  }
-  #boot .bootlogo .sl{ background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent; }
-  #boot .bootline{ font-family:var(--ff-mono); font-size:.78rem; letter-spacing:.22em; text-transform:uppercase; color:var(--green); }
-  #boot .bootline::after{ content:"_"; animation:blink 1s steps(1) infinite; }
-  @keyframes blink{ 50%{ opacity:0; } }
-  #boot .boottrack{ width:min(320px,72vw); height:8px; border:var(--bd) solid var(--line-2); background:var(--bg-2); overflow:hidden; }
-  #boot .bootfill{ height:100%; width:0; background:var(--grad); box-shadow:var(--glow-g); }
-  #boot .bootpct{ font-family:var(--ff-mono); font-size:.72rem; letter-spacing:.3em; color:var(--dim); }
-  /* LED equalizer under boot */
-  #boot .eq{ display:flex; gap:5px; height:26px; align-items:flex-end; }
-  #boot .eq i{ width:5px; background:var(--grad); box-shadow:var(--glow-g); animation:eq 1s ease-in-out infinite; }
-  #boot .eq i:nth-child(2){ animation-delay:.15s } #boot .eq i:nth-child(3){ animation-delay:.3s }
-  #boot .eq i:nth-child(4){ animation-delay:.45s } #boot .eq i:nth-child(5){ animation-delay:.1s }
-  #boot .eq i:nth-child(6){ animation-delay:.35s } #boot .eq i:nth-child(7){ animation-delay:.2s }
-  @keyframes eq{ 0%,100%{ height:20% } 50%{ height:100% } }
-  @media (prefers-reduced-motion:reduce){ #boot .eq i{ animation:none; height:60% } }
-
-  /* ================= AMBIENT BACKGROUND ================= */
-  .atmos{ position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
-  .atmos .grid{
-    position:absolute; inset:-2px;
-    background-image:
-      linear-gradient(var(--line) 1px, transparent 1px),
-      linear-gradient(90deg, var(--line) 1px, transparent 1px);
-    background-size:58px 58px; opacity:.35;
-    -webkit-mask-image:radial-gradient(ellipse 85% 65% at 50% 30%, #000 30%, transparent 80%);
-            mask-image:radial-gradient(ellipse 85% 65% at 50% 30%, #000 30%, transparent 80%);
-    animation:drift 26s linear infinite;
-  }
-  @keyframes drift{ to{ background-position:58px 58px; } }
-  .atmos .aura{
-    position:absolute; left:50%; top:-10%; width:90vw; height:60vh; transform:translateX(-50%);
-    background:
-      radial-gradient(closest-side, rgba(53,255,157,.16), transparent 70%) 20% 0/55vw 55vh no-repeat,
-      radial-gradient(closest-side, rgba(31,216,255,.14), transparent 70%) 80% 20%/55vw 55vh no-repeat;
-    filter:blur(10px);
-  }
-  /* LED wind farm */
-  .windfarm{ position:absolute; left:0; right:0; bottom:0; height:52vh; -webkit-mask-image:linear-gradient(180deg, transparent 0, #000 34%); mask-image:linear-gradient(180deg, transparent 0, #000 34%); }
-  .turbine{ position:absolute; bottom:0; }
-  .turbine svg{ display:block; width:100%; height:100%; overflow:visible; }
-  .turbine .tower{ fill:var(--line-2); }
-  .turbine .nacelle{ fill:var(--line-2); }
-  .turbine .hub{ fill:var(--green); filter:drop-shadow(0 0 5px var(--green)); }
-  .turbine .blade{ fill:rgba(53,255,157,.16); stroke:var(--green); stroke-width:2; vector-effect:non-scaling-stroke; filter:drop-shadow(0 0 4px rgba(53,255,157,.55)); }
-  .turbine.cy .hub{ fill:var(--cyan); filter:drop-shadow(0 0 5px var(--cyan)); }
-  .turbine.cy .blade{ fill:rgba(31,216,255,.16); stroke:var(--cyan); filter:drop-shadow(0 0 4px rgba(31,216,255,.55)); }
-  .turbine .blades{ transform-box:fill-box; transform-origin:center; animation:spin var(--spd,8s) linear infinite; }
-  @keyframes spin{ to{ transform:rotate(360deg); } }
-  @media (prefers-reduced-motion:reduce){ .atmos .grid{ animation:none } .turbine .blades{ animation:none } }
-
-  .wrap{ position:relative; z-index:1; max-width:var(--maxw); margin:0 auto; padding:0 24px; }
+  #boot .bootlogo{ font-family:var(--ff-display); font-weight:600; font-size:clamp(2rem,7vw,3.2rem); letter-spacing:-.01em; color:var(--ink); }
+  #boot .bootlogo .sl{ color:var(--green); }
+  #boot .bootleaf{ width:30px; height:30px; color:var(--green); animation:sway 2.4s ease-in-out infinite; transform-origin:bottom center; }
+  @keyframes sway{ 0%,100%{ transform:rotate(-7deg) } 50%{ transform:rotate(7deg) } }
+  @media (prefers-reduced-motion:reduce){ #boot .bootleaf{ animation:none } }
+  #boot .bootline{ font-family:var(--ff-label); font-size:.82rem; letter-spacing:.12em; text-transform:uppercase; color:var(--dim); }
+  #boot .boottrack{ width:min(300px,70vw); height:6px; border-radius:999px; background:var(--bg-2); overflow:hidden; }
+  #boot .bootfill{ height:100%; width:0; background:var(--accent); border-radius:999px; }
+  #boot .bootpct{ font-family:var(--ff-label); font-size:.74rem; letter-spacing:.18em; color:var(--dim); }
 
   /* ================= TYPE DEVICES ================= */
-  .eyebrow{
-    font-family:var(--ff-mono); font-size:.72rem; letter-spacing:.26em; text-transform:uppercase;
-    color:var(--green); display:inline-flex; align-items:center; gap:.6em;
-  }
-  .eyebrow::before{ content:""; width:22px; height:2px; background:var(--grad); box-shadow:var(--glow-g); }
-  h1,h2,h3{ font-family:var(--ff-display); font-weight:700; line-height:1.03; margin:0; color:var(--white); }
-  .grad-text{ background:var(--grad); background-size:200% auto; -webkit-background-clip:text; background-clip:text; color:transparent; animation:shift 6s linear infinite; }
-  @keyframes shift{ to{ background-position:200% center; } }
-  @media (prefers-reduced-motion:reduce){ .grad-text{ animation:none } }
+  .eyebrow{ font-family:var(--ff-label); font-weight:600; font-size:.76rem; letter-spacing:.14em; text-transform:uppercase; color:var(--green); display:inline-flex; align-items:center; gap:.6em; }
+  .eyebrow::before{ content:""; width:22px; height:2px; border-radius:2px; background:var(--green); }
+  h1,h2,h3{ font-family:var(--ff-display); font-weight:600; line-height:1.06; margin:0; color:var(--ink); letter-spacing:-.015em; }
+  .accent-text{ color:var(--green); font-style:italic; }
 
-  /* strong-bordered surface (replaces the old corner-bracket console) */
-  .panel{ background:linear-gradient(180deg,var(--panel),var(--panel-2)); border:var(--bd) solid var(--line-2); }
+  .card{ background:var(--panel); border:var(--bd) solid var(--line); border-radius:var(--radius); box-shadow:var(--soft); }
 
   .btn{
-    font-family:var(--ff-mono); font-size:.78rem; letter-spacing:.1em; text-transform:uppercase;
-    padding:12px 22px; border:var(--bd) solid var(--green); color:#03150f; background:var(--green);
-    display:inline-block; cursor:pointer; transition:transform .15s, box-shadow .25s, background .2s;
+    font-family:var(--ff-body); font-weight:600; font-size:.92rem; letter-spacing:.01em;
+    padding:13px 26px; border-radius:999px; border:var(--bd) solid var(--green); background:var(--green); color:#fff;
+    display:inline-block; cursor:pointer; transition:transform .16s, box-shadow .25s, background .2s, color .2s;
   }
-  .btn:hover{ box-shadow:var(--glow-g); transform:translateY(-2px); }
-  .btn.ghost{ background:transparent; color:var(--green); }
-  .btn.ghost:hover{ background:rgba(53,255,157,.1); }
+  .btn:hover{ box-shadow:var(--lift); transform:translateY(-2px); background:var(--green-d); border-color:var(--green-d); }
+  .btn.ghost{ background:transparent; color:var(--green); border-color:var(--line-2); }
+  .btn.ghost:hover{ background:rgba(47,125,84,.07); color:var(--green-d); border-color:var(--green); box-shadow:none; }
 
   /* ================= HEADER / TABS ================= */
   header.top{
     position:sticky; top:0; z-index:60;
-    background:linear-gradient(180deg, rgba(4,18,14,.94), rgba(4,18,14,.7));
-    backdrop-filter:blur(12px);
-    border-bottom:var(--bd) solid var(--line-2);
+    background:rgba(244,247,240,.82); backdrop-filter:blur(12px);
+    border-bottom:var(--bd) solid var(--line);
   }
-  .top-inner{ max-width:var(--maxw); margin:0 auto; padding:0 24px; height:66px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
-  .brand{ font-family:var(--ff-display); font-weight:700; font-size:1.05rem; color:var(--white); display:flex; align-items:center; gap:.55rem; white-space:nowrap; cursor:pointer; }
-  .brand .led{ width:9px; height:9px; border-radius:50%; background:var(--green); box-shadow:0 0 10px var(--green); animation:beat 2s infinite; }
-  .brand .sl{ background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent; }
-  @keyframes beat{ 0%,100%{ opacity:1; box-shadow:0 0 10px var(--green) } 50%{ opacity:.4; box-shadow:0 0 3px var(--green) } }
+  .top-inner{ max-width:var(--maxw); margin:0 auto; padding:0 28px; height:70px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+  .brand{ font-family:var(--ff-display); font-weight:600; font-size:1.2rem; color:var(--ink); display:flex; align-items:center; gap:.5rem; white-space:nowrap; cursor:pointer; letter-spacing:-.01em; }
+  .brand .leaf{ width:20px; height:20px; color:var(--green); }
+  .brand .sl{ color:var(--green); }
 
-  nav.tabs{ display:flex; gap:8px; overflow-x:auto; scrollbar-width:none; }
+  nav.tabs{ display:flex; gap:6px; overflow-x:auto; scrollbar-width:none; }
   nav.tabs::-webkit-scrollbar{ display:none; }
   .tab{
-    position:relative; font-family:var(--ff-mono); font-size:.74rem; letter-spacing:.12em; text-transform:uppercase;
-    padding:9px 15px; border:var(--bd) solid var(--line); background:transparent; color:var(--dim);
-    cursor:pointer; white-space:nowrap; transition:color .2s, border-color .2s, box-shadow .25s, background .2s;
+    font-family:var(--ff-body); font-weight:500; font-size:.9rem; letter-spacing:.005em;
+    padding:9px 17px; border-radius:999px; border:var(--bd) solid transparent; background:transparent; color:var(--dim);
+    cursor:pointer; white-space:nowrap; transition:color .2s, background .2s, box-shadow .2s;
   }
-  .tab:hover{ color:var(--text); border-color:var(--line-2); }
-  .tab.on{ color:var(--white); border-color:var(--green); background:rgba(53,255,157,.08); box-shadow:var(--glow-g); }
-  .tab.on::after{ content:""; position:absolute; left:8px; right:8px; bottom:-1.5px; height:2px; background:var(--grad); box-shadow:var(--glow-g); }
+  .tab:hover{ color:var(--ink); background:rgba(47,125,84,.06); }
+  .tab.on{ color:#fff; background:var(--green); box-shadow:var(--soft); }
 
   /* ================= PAGES ================= */
   main{ position:relative; z-index:1; }
   .page{ display:none; }
   .page.active{ display:block; }
-  section.view{ max-width:var(--maxw); margin:0 auto; padding:64px 24px 90px; }
+  section.view{ max-width:var(--maxw); margin:0 auto; padding:76px 28px 104px; }
 
-  /* staggered entrance for direct children of .flow */
   .page.active .flow>*{ animation:rise .6s cubic-bezier(.2,.7,.2,1) both; }
-  @keyframes rise{ from{ opacity:0; transform:translateY(22px); } to{ opacity:1; transform:none; } }
+  @keyframes rise{ from{ opacity:0; transform:translateY(18px); } to{ opacity:1; transform:none; } }
   .flow>*:nth-child(1){ animation-delay:.04s } .flow>*:nth-child(2){ animation-delay:.1s }
   .flow>*:nth-child(3){ animation-delay:.16s } .flow>*:nth-child(4){ animation-delay:.22s }
   .flow>*:nth-child(5){ animation-delay:.28s } .flow>*:nth-child(6){ animation-delay:.34s }
   .flow>*:nth-child(7){ animation-delay:.4s }  .flow>*:nth-child(8){ animation-delay:.46s }
   @media (prefers-reduced-motion:reduce){ .page.active .flow>*{ animation:none } }
 
-  .sec-head{ max-width:720px; margin-bottom:44px; }
-  .sec-head h2{ font-size:clamp(2rem,5vw,3.1rem); margin-top:16px; }
-  .sec-head p{ color:var(--dim); font-size:1.06rem; margin:16px 0 0; }
+  .sec-head{ max-width:720px; margin-bottom:52px; }
+  .sec-head h2{ font-size:clamp(2.1rem,5vw,3.2rem); margin-top:18px; }
+  .sec-head p{ color:var(--dim); font-size:1.08rem; margin:18px 0 0; }
 
   /* ---------- HOME / HERO ---------- */
-  .hero-status{ display:flex; flex-wrap:wrap; gap:12px 24px; align-items:center; margin-bottom:26px; }
-  .chip{ font-family:var(--ff-mono); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); display:flex; align-items:center; gap:.5em; }
-  .chip .dot{ width:7px; height:7px; border-radius:50%; background:var(--cyan); box-shadow:0 0 8px var(--cyan); animation:beat 1.6s infinite; }
-  #page-home h1{ font-size:clamp(2.6rem,10vw,7rem); letter-spacing:-.01em; }
-  .hero-sub{ max-width:620px; margin:22px 0 0; font-size:1.16rem; }
-  .hero-sub b{ color:var(--white); font-weight:600; }
-  .hero-cta{ display:flex; flex-wrap:wrap; gap:14px; margin-top:32px; }
+  .hero-status{ display:flex; flex-wrap:wrap; gap:12px 22px; align-items:center; margin-bottom:26px; }
+  .chip{ font-family:var(--ff-label); font-size:.82rem; color:var(--dim); display:flex; align-items:center; gap:.5em; }
+  .chip .dot{ width:7px; height:7px; border-radius:50%; background:var(--mint); }
+  #page-home h1{ font-size:clamp(2.8rem,9vw,6.4rem); letter-spacing:-.025em; }
+  .hero-sub{ max-width:600px; margin:24px 0 0; font-size:1.2rem; color:var(--text); }
+  .hero-sub b{ color:var(--ink); font-weight:600; }
+  .hero-cta{ display:flex; flex-wrap:wrap; gap:14px; margin-top:36px; }
 
-  /* countdown — LED segment strip (strong border, no brackets) */
-  .clock{ margin-top:52px; display:grid; grid-template-columns:repeat(4,1fr); gap:0; border:var(--bd) solid var(--line-2); }
-  .clock .cell{ padding:26px 8px 20px; text-align:center; border-right:var(--bd) solid var(--line-2); background:linear-gradient(180deg, rgba(53,255,157,.05), transparent 60%); position:relative; }
+  /* countdown — clean panel */
+  .clock{ margin-top:58px; display:grid; grid-template-columns:repeat(4,1fr); overflow:hidden; background:var(--panel); border:var(--bd) solid var(--line); border-radius:var(--radius); box-shadow:var(--soft); }
+  .clock .cell{ padding:30px 8px 24px; text-align:center; border-right:var(--bd) solid var(--line); }
   .clock .cell:last-child{ border-right:0; }
-  .clock .num{ font-family:var(--ff-mono); font-weight:700; font-size:clamp(2.4rem,7vw,4.6rem); line-height:1; color:var(--white); font-variant-numeric:tabular-nums; text-shadow:0 0 20px rgba(53,255,157,.45); display:block; }
+  .clock .num{ font-family:var(--ff-display); font-weight:600; font-size:clamp(2.6rem,7vw,4.4rem); line-height:1; color:var(--green-d); font-variant-numeric:tabular-nums; display:block; }
   .clock .num.tick{ animation:tick .5s ease; }
-  @keyframes tick{ 0%{ color:var(--green); transform:scale(1.08) } 100%{ color:var(--white); transform:none } }
-  .clock .cap{ display:block; margin-top:12px; font-family:var(--ff-mono); font-size:.64rem; letter-spacing:.24em; text-transform:uppercase; color:var(--dim); }
-  .clock-foot{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px 20px; margin-top:16px; font-family:var(--ff-mono); font-size:.68rem; letter-spacing:.16em; text-transform:uppercase; color:var(--dim); }
-  .clock-foot b{ color:var(--green); }
-  .bar{ flex:1; min-width:160px; height:6px; border:var(--bd) solid var(--line-2); background:var(--bg-2); overflow:hidden; }
-  .bar i{ display:block; height:100%; width:0; background:var(--grad); box-shadow:var(--glow-g); transition:width 1s linear; }
+  @keyframes tick{ 0%{ color:var(--green); transform:scale(1.05) } 100%{ color:var(--green-d); transform:none } }
+  .clock .cap{ display:block; margin-top:12px; font-family:var(--ff-label); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); }
+  .clock-foot{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px 20px; margin-top:18px; font-family:var(--ff-label); font-size:.82rem; color:var(--dim); }
+  .clock-foot b{ color:var(--green); font-weight:600; }
+  .bar{ flex:1; min-width:160px; height:6px; border-radius:999px; background:var(--bg-2); overflow:hidden; }
+  .bar i{ display:block; height:100%; width:0; background:var(--accent); transition:width 1s linear; }
 
-  .home-grid{ margin-top:64px; display:grid; grid-template-columns:1.25fr 1fr; gap:40px; align-items:start; }
-  .home-grid p{ font-size:1.06rem; }
+  .home-grid{ margin-top:72px; display:grid; grid-template-columns:1.25fr 1fr; gap:48px; align-items:start; }
+  .home-grid p{ font-size:1.08rem; }
   .home-grid p+p{ margin-top:16px; }
-  .thread{ margin-top:24px; padding:18px 20px; border:var(--bd) solid var(--line-2); border-left:3px solid var(--green); background:rgba(53,255,157,.05); }
-  .thread span{ font-family:var(--ff-mono); font-size:.7rem; letter-spacing:.18em; text-transform:uppercase; color:var(--green); display:block; margin-bottom:6px; }
-  .facts{ display:grid; gap:12px; }
-  .fact{ padding:18px 20px; display:flex; flex-direction:column; gap:5px; }
-  .fact .k{ font-family:var(--ff-mono); font-size:.66rem; letter-spacing:.2em; text-transform:uppercase; color:var(--cyan); }
-  .fact .v{ font-family:var(--ff-display); font-size:1.3rem; color:var(--white); font-weight:600; }
-  .fact .m{ font-family:var(--ff-mono); font-size:.72rem; color:var(--dim); }
+  .thread{ margin-top:26px; padding:20px 22px; border-radius:var(--radius); border-left:3px solid var(--green); background:rgba(47,125,84,.06); }
+  .thread span{ font-family:var(--ff-label); font-weight:600; font-size:.74rem; letter-spacing:.12em; text-transform:uppercase; color:var(--green); display:block; margin-bottom:6px; }
+  .facts{ display:grid; gap:14px; }
+  .fact{ padding:20px 22px; display:flex; flex-direction:column; gap:5px; }
+  .fact .k{ font-family:var(--ff-label); font-weight:600; font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color:var(--green); }
+  .fact .v{ font-family:var(--ff-display); font-size:1.35rem; color:var(--ink); font-weight:600; }
+  .fact .m{ font-family:var(--ff-body); font-size:.86rem; color:var(--dim); }
 
   /* ---------- TRACKS ---------- */
-  .tracks{ display:grid; grid-template-columns:1fr 1fr; gap:20px; }
-  .track{ padding:30px; display:flex; flex-direction:column; transition:transform .2s, box-shadow .3s, border-color .2s; }
-  .track:hover{ transform:translateY(-4px); box-shadow:var(--glow-g); border-color:var(--green); }
-  .track:nth-child(2):hover{ box-shadow:var(--glow-c); border-color:var(--cyan); }
-  .track .idx{ font-family:var(--ff-mono); font-size:.8rem; letter-spacing:.2em; color:var(--dim); }
-  .track h3{ font-size:1.9rem; margin:12px 0 8px; }
-  .track .draft{ display:inline-block; font-family:var(--ff-mono); font-size:.6rem; letter-spacing:.16em; text-transform:uppercase; color:var(--cyan); border:var(--bd) solid var(--cyan); padding:3px 8px; margin-bottom:16px; }
-  .track p{ color:var(--dim); font-size:1rem; }
-  .track ul{ list-style:none; padding:0; margin:20px 0 0; display:grid; gap:10px; }
-  .track li{ font-family:var(--ff-mono); font-size:.82rem; color:var(--text); display:flex; gap:.7em; align-items:baseline; }
-  .track li::before{ content:"›"; color:var(--green); font-weight:700; }
-  .track:nth-child(2) li::before{ color:var(--cyan); }
-  .track .foot{ margin-top:auto; padding-top:22px; font-family:var(--ff-mono); font-size:.72rem; letter-spacing:.1em; color:var(--dim); text-transform:uppercase; }
+  .tracks{ display:grid; grid-template-columns:1fr 1fr; gap:22px; }
+  .track{ padding:34px; display:flex; flex-direction:column; transition:transform .2s, box-shadow .3s; }
+  .track:hover{ transform:translateY(-4px); box-shadow:var(--lift); }
+  .track .idx{ font-family:var(--ff-label); font-weight:600; font-size:.8rem; letter-spacing:.14em; color:var(--mint); }
+  .track h3{ font-size:2rem; margin:12px 0 8px; }
+  .track .draft{ display:inline-block; font-family:var(--ff-label); font-size:.68rem; letter-spacing:.08em; text-transform:uppercase; color:var(--cyan); background:rgba(60,134,168,.1); border-radius:999px; padding:4px 11px; margin-bottom:18px; }
+  .track p{ color:var(--dim); font-size:1.02rem; }
+  .track ul{ list-style:none; padding:0; margin:22px 0 0; display:grid; gap:11px; }
+  .track li{ font-size:.96rem; color:var(--text); display:flex; gap:.7em; align-items:baseline; }
+  .track li::before{ content:""; flex:0 0 auto; width:7px; height:7px; margin-top:.45em; border-radius:50%; background:var(--green); }
+  .track:nth-child(2) li::before{ background:var(--cyan); }
+  .track .foot{ margin-top:auto; padding-top:24px; font-family:var(--ff-label); font-weight:600; font-size:.8rem; letter-spacing:.06em; color:var(--green); }
 
   /* ---------- DATA ---------- */
-  .res-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
-  .res{ padding:22px; border:var(--bd) solid var(--line-2); background:var(--panel); transition:border-color .2s, transform .2s, box-shadow .25s; }
-  .res:hover{ border-color:var(--cyan); transform:translateY(-3px); box-shadow:var(--glow-c); }
-  .res .idx{ float:right; font-family:var(--ff-mono); font-size:.72rem; color:var(--line-2); }
-  .res .tag{ font-family:var(--ff-mono); font-size:.6rem; letter-spacing:.16em; text-transform:uppercase; color:#03150f; background:var(--mint); padding:3px 7px; display:inline-block; margin-bottom:14px; }
-  .res h4{ font-family:var(--ff-display); font-size:1.12rem; color:var(--white); margin:0 0 8px; font-weight:600; }
-  .res p{ margin:0; font-size:.9rem; color:var(--dim); }
+  .res-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+  .res{ padding:24px; background:var(--panel); border:var(--bd) solid var(--line); border-radius:var(--radius); box-shadow:var(--soft); transition:transform .2s, box-shadow .25s; }
+  .res:hover{ transform:translateY(-3px); box-shadow:var(--lift); }
+  .res .idx{ float:right; font-family:var(--ff-label); font-size:.8rem; color:var(--line-2); }
+  .res .tag{ font-family:var(--ff-label); font-weight:600; font-size:.66rem; letter-spacing:.08em; text-transform:uppercase; color:var(--green-d); background:rgba(58,155,120,.16); border-radius:999px; padding:4px 10px; display:inline-block; margin-bottom:16px; }
+  .res h4{ font-family:var(--ff-display); font-size:1.2rem; color:var(--ink); margin:0 0 8px; font-weight:600; }
+  .res p{ margin:0; font-size:.92rem; color:var(--dim); }
 
   /* ---------- EVENT ---------- */
-  .fmt{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:64px; }
-  .fmt .cell2{ padding:24px; }
-  .fmt .big{ font-family:var(--ff-display); font-size:2rem; color:var(--white); font-weight:700; }
-  .fmt .lab{ font-family:var(--ff-mono); font-size:.7rem; letter-spacing:.16em; text-transform:uppercase; color:var(--green); margin-top:8px; }
-  .fmt .sub{ font-size:.86rem; color:var(--dim); margin-top:6px; }
+  .fmt{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-bottom:72px; }
+  .fmt .cell2{ padding:26px; }
+  .fmt .big{ font-family:var(--ff-display); font-size:2.1rem; color:var(--ink); font-weight:600; }
+  .fmt .lab{ font-family:var(--ff-label); font-weight:600; font-size:.74rem; letter-spacing:.1em; text-transform:uppercase; color:var(--green); margin-top:8px; }
+  .fmt .sub{ font-size:.9rem; color:var(--dim); margin-top:8px; }
 
-  .marq{ overflow:hidden; border-block:var(--bd) solid var(--line-2); padding:24px 0; margin:0 0 56px; }
-  .marq-track{ display:flex; align-items:center; gap:28px; width:max-content; animation:slide 30s linear infinite; }
+  .marq{ overflow:hidden; padding:8px 0 4px; margin:0 0 64px; }
+  .marq-track{ display:flex; align-items:center; gap:22px; width:max-content; animation:slide 32s linear infinite; }
   @keyframes slide{ to{ transform:translateX(-50%) } }
   .marq:hover .marq-track{ animation-play-state:paused; }
   @media (prefers-reduced-motion:reduce){ .marq-track{ animation:none; flex-wrap:wrap; width:auto; justify-content:center } }
-  .logo-chip{ flex:0 0 auto; height:82px; min-width:172px; padding:0 30px; display:flex; align-items:center; justify-content:center;
-    background:rgba(240,247,244,.96); border:var(--bd) solid var(--line-2); border-radius:16px; transition:box-shadow .25s, transform .2s, border-color .2s; }
-  .logo-chip:hover{ box-shadow:var(--glow-g); border-color:var(--green); transform:translateY(-3px); }
-  .logo-chip img{ max-height:40px; max-width:210px; width:auto; height:auto; display:block; }
-  .logo-chip.text{ font-family:var(--ff-display); font-weight:700; font-size:1.35rem; color:#0c2c22; letter-spacing:.01em; }
+  .logo-chip{ flex:0 0 auto; height:88px; min-width:180px; padding:0 34px; display:flex; align-items:center; justify-content:center;
+    background:var(--panel); border:var(--bd) solid var(--line); border-radius:var(--radius); box-shadow:var(--soft); transition:box-shadow .25s, transform .2s; }
+  .logo-chip:hover{ box-shadow:var(--lift); transform:translateY(-3px); }
+  .logo-chip img{ max-height:42px; max-width:210px; width:auto; height:auto; display:block; }
+  .logo-chip.text{ font-family:var(--ff-display); font-weight:600; font-size:1.4rem; color:var(--ink); }
 
-  .hosts{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:64px; }
-  .host{ padding:26px; }
-  .host .role{ font-family:var(--ff-mono); font-size:.66rem; letter-spacing:.18em; text-transform:uppercase; color:var(--cyan); }
-  .host h4{ font-family:var(--ff-display); font-size:1.22rem; color:var(--white); margin:10px 0 8px; font-weight:600; }
-  .host p{ margin:0; font-size:.92rem; color:var(--dim); }
+  .hosts{ display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:72px; }
+  .host{ padding:30px; }
+  .host .role{ font-family:var(--ff-label); font-weight:600; font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color:var(--green); }
+  .host h4{ font-family:var(--ff-display); font-size:1.35rem; color:var(--ink); margin:12px 0 10px; font-weight:600; }
+  .host p{ margin:0; font-size:.96rem; color:var(--dim); }
 
   .faq{ display:grid; gap:12px; max-width:840px; }
-  details.q{ border:var(--bd) solid var(--line-2); background:var(--panel); }
-  details.q[open]{ border-color:var(--green); box-shadow:var(--glow-g); }
-  details.q summary{ list-style:none; cursor:pointer; padding:20px 24px; font-family:var(--ff-display); font-weight:500; font-size:1.06rem; color:var(--white); display:flex; justify-content:space-between; align-items:center; gap:16px; }
+  details.q{ border:var(--bd) solid var(--line); border-radius:var(--radius); background:var(--panel); box-shadow:var(--soft); overflow:hidden; }
+  details.q[open]{ border-color:var(--line-2); }
+  details.q summary{ list-style:none; cursor:pointer; padding:22px 26px; font-family:var(--ff-display); font-weight:600; font-size:1.1rem; color:var(--ink); display:flex; justify-content:space-between; align-items:center; gap:16px; }
   details.q summary::-webkit-details-marker{ display:none; }
-  details.q summary .pm{ font-family:var(--ff-mono); color:var(--green); font-size:1.3rem; line-height:1; transition:transform .2s; }
+  details.q summary .pm{ font-family:var(--ff-body); color:var(--green); font-size:1.4rem; line-height:1; transition:transform .2s; }
   details.q[open] summary .pm{ transform:rotate(45deg); }
-  details.q .a{ padding:0 24px 22px; color:var(--dim); font-size:.98rem; }
+  details.q .a{ padding:0 26px 24px; color:var(--dim); font-size:1rem; }
 
   /* ---------- JOIN ---------- */
-  .join-box{ max-width:720px; margin:0 auto; padding:46px 32px; text-align:center; }
-  .join-box h2{ font-size:clamp(2rem,5vw,3rem); }
-  .join-box p{ color:var(--dim); max-width:520px; margin:16px auto 0; }
+  .join-box{ max-width:720px; margin:0 auto; padding:56px 40px; text-align:center; }
+  .join-box h2{ font-size:clamp(2.1rem,5vw,3rem); }
+  .join-box p{ color:var(--dim); max-width:520px; margin:18px auto 0; font-size:1.06rem; }
   /* TODO: replace .form-slot with the real interest-form embed
      (paste a Google Form / Typeform / Luma <iframe> where noted). */
-  .form-slot{ margin-top:32px; border:var(--bd) dashed var(--line-2); background:repeating-linear-gradient(45deg, rgba(53,255,157,.04) 0 12px, transparent 12px 24px); padding:44px 24px; font-family:var(--ff-mono); color:var(--dim); font-size:.82rem; letter-spacing:.08em; }
-  .form-slot .big{ font-family:var(--ff-display); font-size:1.1rem; color:var(--white); letter-spacing:0; margin-bottom:8px; }
-  .join-box .btn{ margin-top:28px; }
-  .contacts{ display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:34px; }
-  .contacts a{ font-family:var(--ff-mono); font-size:.82rem; color:var(--text); border:var(--bd) solid var(--line-2); padding:9px 14px; transition:color .2s,border-color .2s,box-shadow .25s; }
-  .contacts a:hover{ color:var(--green); border-color:var(--green); box-shadow:var(--glow-g); }
+  .form-slot{ margin-top:34px; border:var(--bd) dashed var(--line-2); border-radius:var(--radius); background:rgba(47,125,84,.04); padding:46px 24px; font-family:var(--ff-label); color:var(--dim); font-size:.9rem; }
+  .form-slot .big{ font-family:var(--ff-display); font-size:1.15rem; color:var(--ink); margin-bottom:8px; font-weight:600; }
+  .join-box .btn{ margin-top:30px; }
+  .contacts{ display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:36px; }
+  .contacts a{ font-family:var(--ff-body); font-size:.9rem; color:var(--text); border:var(--bd) solid var(--line-2); border-radius:999px; padding:10px 18px; transition:color .2s, border-color .2s, background .2s; }
+  .contacts a:hover{ color:var(--green-d); border-color:var(--green); background:rgba(47,125,84,.06); }
 
   /* ================= FOOTER ================= */
-  footer{ border-top:var(--bd) solid var(--line-2); position:relative; z-index:1; }
-  .foot-inner{ max-width:var(--maxw); margin:0 auto; padding:26px 24px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px 24px; font-family:var(--ff-mono); font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:var(--dim); }
-  .foot-inner b{ color:var(--text); }
+  footer{ border-top:var(--bd) solid var(--line); position:relative; z-index:1; background:var(--panel-2); }
+  .foot-inner{ max-width:var(--maxw); margin:0 auto; padding:30px 28px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px 24px; font-family:var(--ff-body); font-size:.88rem; color:var(--dim); }
+  .foot-inner b{ color:var(--text); font-weight:600; }
 
-  /* focus visibility */
-  a:focus-visible,button:focus-visible,summary:focus-visible,.btn:focus-visible,.tab:focus-visible{ outline:2px solid var(--cyan); outline-offset:3px; }
+  a:focus-visible,button:focus-visible,summary:focus-visible,.btn:focus-visible,.tab:focus-visible{ outline:2px solid var(--green); outline-offset:3px; }
 
   /* ================= RESPONSIVE ================= */
   @media (max-width:900px){
@@ -305,18 +247,16 @@
     .hosts{ grid-template-columns:1fr; }
   }
   @media (max-width:680px){
-    .top-inner{ flex-direction:column; height:auto; padding:12px 16px 14px; gap:10px; }
+    .top-inner{ flex-direction:column; height:auto; padding:14px 18px 16px; gap:12px; }
     nav.tabs{ width:100%; justify-content:flex-start; }
-    section.view{ padding:44px 20px 72px; }
-    #page-home h1{ font-size:clamp(1.7rem,9vw,3rem); white-space:nowrap; }
-    .clock .num{ font-size:clamp(1.9rem,11vw,2.8rem); }
-    .res-grid{ grid-template-columns:1fr; }
-    .fmt{ grid-template-columns:1fr; }
+    section.view{ padding:52px 20px 80px; }
+    #page-home h1{ font-size:clamp(2rem,10vw,3.2rem); }
+    .join-box{ padding:44px 24px; }
   }
-  @media (max-width:420px){
+  @media (max-width:560px){
     .clock{ grid-template-columns:1fr 1fr; }
     .clock .cell:nth-child(2){ border-right:0; }
-    .clock .cell:nth-child(1),.clock .cell:nth-child(2){ border-bottom:var(--bd) solid var(--line-2); }
+    .clock .cell:nth-child(1),.clock .cell:nth-child(2){ border-bottom:var(--bd) solid var(--line); }
   }
 </style>
 </head>
@@ -324,28 +264,23 @@
 
 <!-- ================= LOADING SCREEN ================= -->
 <div id="boot" aria-hidden="true">
+  <svg class="bootleaf" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 22c0-6 2-10 8-13-1 8-4 11-8 13zM12 22C7 20 3 15 4 5c8 2 9 9 8 17z"/></svg>
   <div class="bootlogo"><span class="sl">BAC</span> Hackathon</div>
-  <div class="eq"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-  <div class="bootline" id="bootline">Initializing sustainability core</div>
+  <div class="bootline" id="bootline">Loading</div>
   <div class="boottrack"><div class="bootfill" id="bootfill"></div></div>
-  <div class="bootpct" id="bootpct">000</div>
-</div>
-
-<!-- ================= AMBIENT ================= -->
-<div class="atmos" aria-hidden="true">
-  <div class="aura"></div>
-  <div class="grid"></div>
-  <div class="windfarm" id="windfarm"></div>
+  <div class="bootpct" id="bootpct">0%</div>
 </div>
 
 <!-- ================= HEADER / TABS ================= -->
 <header class="top">
   <div class="top-inner">
-    <div class="brand" data-goto="home" role="button" tabindex="0"><span class="led"></span><span class="sl">BAC</span> Hackathon</div>
+    <div class="brand" data-goto="home" role="button" tabindex="0">
+      <svg class="leaf" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 22c0-6 2-10 8-13-1 8-4 11-8 13zM12 22C7 20 3 15 4 5c8 2 9 9 8 17z"/></svg>
+      <span><span class="sl">BAC</span> Hackathon</span>
+    </div>
     <nav class="tabs" role="tablist" aria-label="Sections">
       <button class="tab on" role="tab" data-tab="home"   aria-selected="true">Home</button>
       <button class="tab"    role="tab" data-tab="tracks" aria-selected="false">Tracks</button>
-      <button class="tab"    role="tab" data-tab="data"   aria-selected="false">Data</button>
       <button class="tab"    role="tab" data-tab="event"  aria-selected="false">Event</button>
       <button class="tab"    role="tab" data-tab="join"   aria-selected="false">Join</button>
     </nav>
@@ -358,15 +293,15 @@
   <div class="page active" id="page-home" role="tabpanel">
     <section class="view flow">
       <div class="hero-status">
-        <span class="eyebrow">SYS.STATUS // EVENT INBOUND</span>
+        <span class="eyebrow">Sustainable Data Center Hackathon</span>
         <span class="chip"><span class="dot"></span>Registration open soon</span>
         <span class="chip">NYU · New York City</span>
       </div>
-      <h1><span class="grad-text">BAC Hackathon</span></h1>
-      <p class="hero-sub">A weekend hackathon to <b>measure, reuse, and reduce</b> the environmental footprint of data centers — the machines that run our whole digital world. Build tools that turn wasted heat and retired hardware into <b>provable</b> climate wins.</p>
+      <h1>BAC Hackathon</h1>
+      <p class="hero-sub">A weekend to <b>measure, reuse, and reduce</b> the environmental footprint of data centers — the machines that run our whole digital world. Build tools that turn wasted heat and retired hardware into <b>provable</b> climate wins.</p>
       <div class="hero-cta">
-        <a class="btn" data-goto="join" href="#join">Register Interest ►</a>
-        <a class="btn ghost" data-goto="tracks" href="#tracks">View the Tracks</a>
+        <a class="btn" data-goto="join" href="#join">Register interest</a>
+        <a class="btn ghost" data-goto="tracks" href="#tracks">View the tracks</a>
       </div>
 
       <!-- countdown -->
@@ -378,26 +313,26 @@
           <div class="cell"><span class="num" id="s">00</span><span class="cap">Seconds</span></div>
         </div>
         <div class="clock-foot">
-          <span>T-MINUS TO IGNITION // <b>OCT 02 · 2026</b></span>
+          <span>Counting down to <b>October 2, 2026</b></span>
           <div class="bar"><i id="bar"></i></div>
-          <span id="pct">LOAD 00%</span>
+          <span id="pct">0% there</span>
         </div>
       </div>
 
       <!-- brief -->
       <div class="home-grid">
         <div>
-          <span class="eyebrow">The Brief</span>
-          <h2 style="font-size:clamp(1.7rem,4vw,2.4rem);margin:14px 0 18px;">Digital infrastructure has a <span class="grad-text">heat &amp; waste</span> problem.</h2>
+          <span class="eyebrow">The brief</span>
+          <h2 style="font-size:clamp(1.8rem,4vw,2.5rem);margin:16px 0 20px;">Digital infrastructure has a <span class="accent-text">heat &amp; waste</span> problem.</h2>
           <p>Data centers are the backbone of the modern economy — and they're incredibly energy-intensive. They reject enormous amounts of low-grade heat, and they retire servers long before those machines are used up. Both are wasted resources with a real carbon cost.</p>
-          <p>Over one weekend, teams build tools that quantify that impact and prove the upside of doing better. You don't need to be an HVAC engineer — we hand you a <b style="color:var(--white)">Data &amp; Formula Packet</b> with the benchmarks, emission factors, and validated formulas to build something mathematically sound.</p>
-          <div class="thread"><span>Common thread // both tracks</span>Every project simulates the carbon footprint and environmental impact of a data center — then makes the case for reuse in numbers a city planner would believe.</div>
+          <p>Over one weekend, teams build tools that quantify that impact and prove the upside of doing better.</p>
+          <div class="thread"><span>Common thread · both tracks</span>Every project simulates the carbon footprint and environmental impact of a data center — then makes the case for reuse in numbers a city planner would believe.</div>
         </div>
         <div class="facts">
-          <div class="panel fact"><span class="k">Date</span><span class="v">October 2, 2026</span><span class="m">// mark your calendar</span></div>
-          <div class="panel fact"><span class="k">Tracks</span><span class="v">Two challenges</span><span class="m">// pick your lane</span></div>
-          <div class="panel fact"><span class="k">Hosted by</span><span class="v">NYU BAC · ML Team</span><span class="m">// with Tech@NYU</span></div>
-          <div class="panel fact"><span class="k">Open to</span><span class="v">Builders &amp; data folk</span><span class="m">// no HVAC degree required</span></div>
+          <div class="card fact"><span class="k">Date</span><span class="v">October 2, 2026</span><span class="m">Mark your calendar</span></div>
+          <div class="card fact"><span class="k">Tracks</span><span class="v">Two challenges</span><span class="m">Pick your lane</span></div>
+          <div class="card fact"><span class="k">Hosted by</span><span class="v">NYU BAC · ML Team</span><span class="m">With Tech@NYU</span></div>
+          <div class="card fact"><span class="k">Open to</span><span class="v">Builders &amp; data folk</span><span class="m">All backgrounds welcome</span></div>
         </div>
       </div>
     </section>
@@ -407,26 +342,26 @@
   <div class="page" id="page-tracks" role="tabpanel">
     <section class="view flow">
       <div class="sec-head">
-        <span class="eyebrow">Choose Your Challenge</span>
-        <h2>Two tracks. One mission: <span class="grad-text">provable</span> sustainability.</h2>
+        <span class="eyebrow">Choose your challenge</span>
+        <h2>Two tracks. One mission: <span class="accent-text">provable</span> sustainability.</h2>
         <p>Both briefs are still being finalized with our partners — here's where they're headed. Full packets drop at kickoff.</p>
       </div>
       <div class="tracks">
-        <article class="panel track">
-          <span class="idx">TRACK 01</span>
+        <article class="card track">
+          <span class="idx">Track 01</span>
           <h3>Waste Heat Reuse</h3>
           <span class="draft">Draft · brief evolving</span>
-          <p>Build an interactive simulator that lets engineers model integrating <b style="color:var(--text)">Waste Heat Reuse</b> into a data center — capturing rejected heat for district heating, greenhouses, or aquaculture instead of dumping it.</p>
+          <p>Build an interactive simulator that lets engineers model integrating <b style="color:var(--text)">waste heat reuse</b> into a data center — capturing rejected heat for district heating, greenhouses, or aquaculture instead of dumping it.</p>
           <ul>
             <li>Input baseline specs: IT load, PUE, WUE, cooling tech, climate</li>
             <li>Model heat-pump uplift vs. water &amp; energy saved by skipping cooling towers</li>
             <li>Output adjusted PUE, Energy Reuse Factor, and CO₂e avoided</li>
             <li>Judged on accuracy, UX, innovation &amp; completeness</li>
           </ul>
-          <span class="foot">Data &amp; Formula Packet provided ►</span>
+          <span class="foot">Data &amp; Formula Packet provided</span>
         </article>
-        <article class="panel track">
-          <span class="idx">TRACK 02</span>
+        <article class="card track">
+          <span class="idx">Track 02</span>
           <h3>Second-Life Hardware</h3>
           <span class="draft">Draft · brief evolving</span>
           <p>Servers get retired before their useful life runs out. Build a tool that extends the life of <b style="color:var(--text)">OCP hardware</b> through reuse and refurbishment — and wrap it in a business model that keeps gear in circulation.</p>
@@ -436,27 +371,8 @@
             <li>Recommend reuse opportunities that cut waste and cost</li>
             <li>Grounded in AI, public datasets &amp; OCP specs</li>
           </ul>
-          <span class="foot">Data &amp; Formula Packet provided ►</span>
+          <span class="foot">Data &amp; Formula Packet provided</span>
         </article>
-      </div>
-    </section>
-  </div>
-
-  <!-- ============ DATA ============ -->
-  <div class="page" id="page-data" role="tabpanel">
-    <section class="view flow">
-      <div class="sec-head">
-        <span class="eyebrow">The Toolkit</span>
-        <h2>Datasets we'll point you to.</h2>
-        <p>Vetted public sources for embodied carbon, grid intensity, and lifecycle impact — so your numbers hold up.</p>
-      </div>
-      <div class="res-grid">
-        <div class="res"><span class="idx">01</span><span class="tag">Embodied carbon</span><h4>EPA USEEIO</h4><p>Estimate embodied carbon of components when detailed supplier data isn't available.</p></div>
-        <div class="res"><span class="idx">02</span><span class="tag">Lifecycle</span><h4>NREL LCI</h4><p>Lifecycle inventories for metals, manufacturing, transportation, electricity, and construction materials.</p></div>
-        <div class="res"><span class="idx">03</span><span class="tag">Scope 2</span><h4>Electricity Maps</h4><p>Real-time grid carbon intensity, historical data, and renewable mix by country and region.</p></div>
-        <div class="res"><span class="idx">04</span><span class="tag">Comparisons</span><h4>Our World in Data</h4><p>CO₂ emissions, energy production, renewable adoption, and climate indicators across countries.</p></div>
-        <div class="res"><span class="idx">05</span><span class="tag">Projections</span><h4>IEA</h4><p>Energy projections from the International Energy Agency for forward-looking scenarios.</p></div>
-        <div class="res"><span class="idx">06</span><span class="tag">Equipment</span><h4>Boavizta</h4><p>Server embodied carbon, storage &amp; network impacts, usage models, and open APIs for product footprints.</p></div>
       </div>
     </section>
   </div>
@@ -470,41 +386,41 @@
         <p>Details are still landing — here's the shape of it. Exact schedule and venue confirmed closer to the date.</p>
       </div>
       <div class="fmt">
-        <div class="panel cell2"><div class="big">Oct 02</div><div class="lab">Kickoff</div><div class="sub">Opening, team formation &amp; the Data Packet drop.</div></div>
-        <div class="panel cell2"><div class="big">2</div><div class="lab">Tracks</div><div class="sub">Waste heat reuse or hardware second-life — your pick.</div></div>
-        <div class="panel cell2"><div class="big">NYC</div><div class="lab">Venue</div><div class="sub">NYU · exact location announced soon.</div></div>
-        <div class="panel cell2"><div class="big">TBA</div><div class="lab">Prizes</div><div class="sub">Sponsor prizes &amp; mentorship — stay tuned.</div></div>
+        <div class="card cell2"><div class="big">Oct 2</div><div class="lab">Kickoff</div><div class="sub">Opening, team formation &amp; the Data Packet drop.</div></div>
+        <div class="card cell2"><div class="big">2</div><div class="lab">Tracks</div><div class="sub">Waste heat reuse or hardware second-life — your pick.</div></div>
+        <div class="card cell2"><div class="big">NYC</div><div class="lab">Venue</div><div class="sub">NYU · exact location announced soon.</div></div>
+        <div class="card cell2"><div class="big">TBA</div><div class="lab">Prizes</div><div class="sub">Sponsor prizes &amp; mentorship — stay tuned.</div></div>
       </div>
 
-      <span class="eyebrow" style="margin-bottom:22px;">Powered By</span>
-      <div class="marq" aria-label="Partners &amp; sponsors">
+      <span class="eyebrow" style="margin-bottom:24px;">Partners &amp; sponsors</span>
+      <div class="marq" aria-label="Partners and sponsors">
         <div class="marq-track">
           <div class="logo-chip"><img src="assets/bac.png" alt="NYU Business Analytics Club"></div>
           <div class="logo-chip"><img src="assets/imasons.png" alt="Infrastructure Masons"></div>
           <div class="logo-chip"><img src="assets/grundfos.png" alt="Grundfos"></div>
           <div class="logo-chip text">OCP</div>
-          <div class="logo-chip text">tech@nyu</div>
+          <div class="logo-chip"><img src="assets/technyu.png" alt="tech@nyu"></div>
           <div class="logo-chip" aria-hidden="true"><img src="assets/bac.png" alt=""></div>
           <div class="logo-chip" aria-hidden="true"><img src="assets/imasons.png" alt=""></div>
           <div class="logo-chip" aria-hidden="true"><img src="assets/grundfos.png" alt=""></div>
           <div class="logo-chip text" aria-hidden="true">OCP</div>
-          <div class="logo-chip text" aria-hidden="true">tech@nyu</div>
+          <div class="logo-chip" aria-hidden="true"><img src="assets/technyu.png" alt=""></div>
         </div>
       </div>
       <div class="hosts">
-        <div class="panel host">
+        <div class="card host">
           <span class="role">Organizer</span>
           <h4>NYU BAC — Machine Learning Team</h4>
           <p>The Business Analytics Club's ML Team has built projects like an LLM trained on tacit knowledge from data center industry leaders, and presented at DCD Connect. This hackathon is the next step.</p>
         </div>
-        <div class="panel host">
-          <span class="role">Co-host &amp; Sponsors</span>
+        <div class="card host">
+          <span class="role">Co-host &amp; sponsors</span>
           <h4>Tech@NYU · iMasons · Grundfos · OCP</h4>
           <p>Tech@NYU helps run the event on campus. Infrastructure Masons, Grundfos, and OCP back the whole hackathon — bringing the industry data, hardware specs, and real-world problems.</p>
         </div>
       </div>
 
-      <span class="eyebrow" style="margin-bottom:22px;">Signal Check</span>
+      <span class="eyebrow" style="margin-bottom:24px;">Questions</span>
       <div class="faq">
         <details class="q"><summary>Do I need a background in data centers or thermodynamics? <span class="pm">+</span></summary><div class="a">No. We provide a Data &amp; Formula Packet with the benchmarks, emission factors, and validated formulas. If you can code or work with data, you can build a strong project.</div></details>
         <details class="q"><summary>Who can participate? <span class="pm">+</span></summary><div class="a">Students, engineers, and data scientists — solo or in teams. Full eligibility and team-size details are being finalized and will be posted here.</div></details>
@@ -518,17 +434,17 @@
   <!-- ============ JOIN ============ -->
   <div class="page" id="page-join" role="tabpanel">
     <section class="view flow">
-      <div class="panel join-box">
-        <span class="eyebrow" style="justify-content:center;">Join the Waitlist</span>
+      <div class="card join-box">
+        <span class="eyebrow" style="justify-content:center;">Join the waitlist</span>
         <h2>Want in?</h2>
         <p>Drop your details and we'll send you the kickoff info, the Data &amp; Formula Packet, and everything you need to show up ready to build.</p>
         <!-- TODO: replace .form-slot with the real interest-form embed, e.g.
              <iframe src="https://forms.gle/..." width="100%" height="640" style="border:0"></iframe> -->
         <div class="form-slot">
-          <div class="big">◪ INTEREST FORM — EMBED PENDING</div>
-          [ paste Google Form / Typeform / Luma iframe here ]
+          <div class="big">Interest form — coming soon</div>
+          Paste your Google Form / Typeform / Luma embed here.
         </div>
-        <a class="btn" href="mailto:jjp9203@nyu.edu?subject=BAC%20Hackathon%20Interest">Email us to get on the list ►</a>
+        <a class="btn" href="mailto:jjp9203@nyu.edu?subject=BAC%20Hackathon%20Interest">Email us to get on the list</a>
         <div class="contacts">
           <a href="mailto:jjp9203@nyu.edu">jjp9203@nyu.edu</a>
           <a href="mailto:oal2029@nyu.edu">oal2029@nyu.edu</a>
@@ -544,54 +460,13 @@
   <div class="foot-inner">
     <span>© 2026 <b>NYU BAC · ML Team</b></span>
     <span>Partners: iMasons · Grundfos · OCP · Tech@NYU</span>
-    <span>// Oct 02 · 2026 · New York City</span>
+    <span>October 2, 2026 · New York City</span>
   </div>
 </footer>
 
 <script>
   const el = id => document.getElementById(id);
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  /* ===== LED WIND FARM ===== */
-  (function(){
-    const farm = el("windfarm");
-    if (!farm) return;
-    // viewBox 120x220, hub at (60,60); one blade points up, length ~52
-    const BLADE = "M0,0 C-4,-15 -3,-42 0,-54 C3,-42 4,-15 0,0 Z";
-    const svg = spd =>
-      '<svg viewBox="0 0 120 220" preserveAspectRatio="xMidYMax meet" aria-hidden="true">' +
-        '<path class="tower" d="M56.5,60 L59,216 L61,216 L63.5,60 Z"/>' +
-        '<rect class="nacelle" x="53" y="53" width="14" height="11" rx="3"/>' +
-        '<g class="blades" transform="translate(60,60)">' +
-          '<path class="blade" d="'+BLADE+'"/>' +
-          '<path class="blade" transform="rotate(120)" d="'+BLADE+'"/>' +
-          '<path class="blade" transform="rotate(240)" d="'+BLADE+'"/>' +
-        '</g>' +
-        '<circle class="hub" cx="60" cy="60" r="4.5"/>' +
-      '</svg>';
-    // left %, scale (px width base 128), speed s, opacity, cyan?
-    const specs = [
-      { l:4,  w:150, spd:8,  o:.60, cy:false },
-      { l:19, w:104, spd:11, o:.42, cy:true  },
-      { l:34, w:190, spd:6.5,o:.72, cy:false },
-      { l:52, w:88,  spd:13, o:.34, cy:true  },
-      { l:66, w:132, spd:9,  o:.55, cy:false },
-      { l:82, w:112, spd:10, o:.46, cy:true  },
-      { l:93, w:168, spd:7.5,o:.6,  cy:false },
-    ];
-    specs.forEach(sp => {
-      const t = document.createElement("div");
-      t.className = "turbine" + (sp.cy ? " cy" : "");
-      t.style.left = sp.l + "%";
-      t.style.width = sp.w + "px";
-      t.style.height = (sp.w * 220/120) + "px";
-      t.style.opacity = sp.o;
-      t.style.marginLeft = (-sp.w/2) + "px";
-      t.style.setProperty("--spd", sp.spd + "s");
-      t.innerHTML = svg(sp.spd);
-      farm.appendChild(t);
-    });
-  })();
 
   /* ===== TABS ===== */
   const tabs  = [...document.querySelectorAll(".tab")];
@@ -615,7 +490,6 @@
     a.addEventListener("click", e => { e.preventDefault(); activate(a.dataset.goto, true); });
     a.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); activate(a.dataset.goto, true); } });
   });
-  // arrow-key navigation across tabs
   document.querySelector(".tabs").addEventListener("keydown", e => {
     if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
     const i = names.indexOf(document.querySelector(".tab.on").dataset.tab);
@@ -629,7 +503,6 @@
   const TARGET = new Date("2026-10-02T09:00:00-04:00").getTime();
   const ORIGIN = new Date("2026-09-01T00:00:00-04:00").getTime();
   const pad = n => String(Math.max(0, n)).padStart(2, "0");
-  const last = { d:null, h:null, m:null, s:null };
 
   function set(id, val){
     const node = el(id);
@@ -643,7 +516,7 @@
     let diff = TARGET - now;
     if (diff <= 0){
       ["d","h","m","s"].forEach(i => el(i).textContent = "00");
-      el("bar").style.width = "100%"; el("pct").textContent = "LOAD 100%";
+      el("bar").style.width = "100%"; el("pct").textContent = "It's here!";
       return;
     }
     const dd = Math.floor(diff/86400000); diff -= dd*86400000;
@@ -653,28 +526,25 @@
     set("d", pad(dd)); set("h", pad(hh)); set("m", pad(mm)); set("s", pad(ss));
     const pct = Math.min(100, Math.max(0, ((now-ORIGIN)/(TARGET-ORIGIN))*100));
     el("bar").style.width = pct.toFixed(1) + "%";
-    el("pct").textContent = "LOAD " + pad(Math.floor(pct)) + "%";
+    el("pct").textContent = Math.floor(pct) + "% there";
   }
   tick(); setInterval(tick, 1000);
 
   /* ===== LOADING SCREEN ===== */
   (function(){
     const boot = el("boot"), fill = el("bootfill"), pctb = el("bootpct"), line = el("bootline");
-    const msgs = ["Initializing sustainability core","Loading grid carbon data","Calibrating heat sensors","Syncing telemetry"];
+    const msgs = ["Loading", "Warming up", "Almost ready"];
     let p = 0, mi = 0;
-    function finish(){
-      boot.classList.add("gone");
-      setTimeout(() => boot.remove(), 700);
-    }
-    if (reduce){ fill.style.width = "100%"; pctb.textContent = "100"; finish(); return; }
+    function finish(){ boot.classList.add("gone"); setTimeout(() => boot.remove(), 700); }
+    if (reduce){ fill.style.width = "100%"; pctb.textContent = "100%"; finish(); return; }
     const iv = setInterval(() => {
       p += Math.random()*16 + 7;
-      if (p >= 100){ p = 100; clearInterval(iv); }
+      if (p >= 100) p = 100;
       fill.style.width = p + "%";
-      pctb.textContent = String(Math.floor(p)).padStart(3, "0");
-      const nm = Math.min(msgs.length-1, Math.floor(p/26));
+      pctb.textContent = Math.floor(p) + "%";
+      const nm = Math.min(msgs.length-1, Math.floor(p/34));
       if (nm !== mi){ mi = nm; line.textContent = msgs[mi]; }
-      if (p >= 100){ line.textContent = "Ready"; setTimeout(finish, 280); }
+      if (p >= 100){ clearInterval(iv); line.textContent = "Ready"; setTimeout(finish, 280); }
     }, 150);
   })();
 </script>
