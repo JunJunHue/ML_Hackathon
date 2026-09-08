@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GREEN//COMPUTE — NYU BAC Sustainable Data Center Hackathon</title>
+<title>BAC Hackathon — NYU Business Analytics Club Sustainable Data Center Hackathon</title>
 <meta name="description" content="A sustainable data center hackathon hosted by the NYU Business Analytics Club ML Team. Waste heat reuse & hardware second-life. Oct 2, 2026.">
 <!-- ============================================================
      GREEN//COMPUTE — tabbed hackathon site (LED / sustainable theme)
@@ -103,10 +103,19 @@
       radial-gradient(closest-side, rgba(31,216,255,.14), transparent 70%) 80% 20%/55vw 55vh no-repeat;
     filter:blur(10px);
   }
-  .energy{ position:absolute; inset:0; }
-  .energy i{ position:absolute; bottom:-20px; width:3px; height:3px; border-radius:50%; background:var(--green); box-shadow:var(--glow-g); opacity:0; animation:rise-e linear infinite; }
-  @keyframes rise-e{ 0%{ transform:translateY(0) scale(1); opacity:0 } 8%{ opacity:.9 } 90%{ opacity:.7 } 100%{ transform:translateY(-104vh) scale(.4); opacity:0 } }
-  @media (prefers-reduced-motion:reduce){ .atmos .grid{ animation:none } .energy{ display:none } }
+  /* LED wind farm */
+  .windfarm{ position:absolute; left:0; right:0; bottom:0; height:52vh; -webkit-mask-image:linear-gradient(180deg, transparent 0, #000 34%); mask-image:linear-gradient(180deg, transparent 0, #000 34%); }
+  .turbine{ position:absolute; bottom:0; }
+  .turbine svg{ display:block; width:100%; height:100%; overflow:visible; }
+  .turbine .tower{ fill:var(--line-2); }
+  .turbine .nacelle{ fill:var(--line-2); }
+  .turbine .hub{ fill:var(--green); filter:drop-shadow(0 0 5px var(--green)); }
+  .turbine .blade{ fill:rgba(53,255,157,.16); stroke:var(--green); stroke-width:2; vector-effect:non-scaling-stroke; filter:drop-shadow(0 0 4px rgba(53,255,157,.55)); }
+  .turbine.cy .hub{ fill:var(--cyan); filter:drop-shadow(0 0 5px var(--cyan)); }
+  .turbine.cy .blade{ fill:rgba(31,216,255,.16); stroke:var(--cyan); filter:drop-shadow(0 0 4px rgba(31,216,255,.55)); }
+  .turbine .blades{ transform-box:fill-box; transform-origin:center; animation:spin var(--spd,8s) linear infinite; }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+  @media (prefers-reduced-motion:reduce){ .atmos .grid{ animation:none } .turbine .blades{ animation:none } }
 
   .wrap{ position:relative; z-index:1; max-width:var(--maxw); margin:0 auto; padding:0 24px; }
 
@@ -241,12 +250,15 @@
   .fmt .sub{ font-size:.86rem; color:var(--dim); margin-top:6px; }
 
   .marq{ overflow:hidden; border-block:var(--bd) solid var(--line-2); padding:24px 0; margin:0 0 56px; }
-  .marq-track{ display:flex; gap:60px; width:max-content; animation:slide 26s linear infinite; }
+  .marq-track{ display:flex; align-items:center; gap:28px; width:max-content; animation:slide 30s linear infinite; }
   @keyframes slide{ to{ transform:translateX(-50%) } }
   .marq:hover .marq-track{ animation-play-state:paused; }
-  @media (prefers-reduced-motion:reduce){ .marq-track{ animation:none; flex-wrap:wrap; width:auto } }
-  .sp{ font-family:var(--ff-display); font-weight:600; font-size:1.5rem; color:var(--dim); white-space:nowrap; opacity:.7; transition:opacity .2s,color .2s; }
-  .sp:hover{ opacity:1; color:var(--white); }
+  @media (prefers-reduced-motion:reduce){ .marq-track{ animation:none; flex-wrap:wrap; width:auto; justify-content:center } }
+  .logo-chip{ flex:0 0 auto; height:82px; min-width:172px; padding:0 30px; display:flex; align-items:center; justify-content:center;
+    background:rgba(240,247,244,.96); border:var(--bd) solid var(--line-2); border-radius:16px; transition:box-shadow .25s, transform .2s, border-color .2s; }
+  .logo-chip:hover{ box-shadow:var(--glow-g); border-color:var(--green); transform:translateY(-3px); }
+  .logo-chip img{ max-height:40px; max-width:210px; width:auto; height:auto; display:block; }
+  .logo-chip.text{ font-family:var(--ff-display); font-weight:700; font-size:1.35rem; color:#0c2c22; letter-spacing:.01em; }
 
   .hosts{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:64px; }
   .host{ padding:26px; }
@@ -312,7 +324,7 @@
 
 <!-- ================= LOADING SCREEN ================= -->
 <div id="boot" aria-hidden="true">
-  <div class="bootlogo">GREEN<span class="sl">//</span>COMPUTE</div>
+  <div class="bootlogo"><span class="sl">BAC</span> Hackathon</div>
   <div class="eq"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
   <div class="bootline" id="bootline">Initializing sustainability core</div>
   <div class="boottrack"><div class="bootfill" id="bootfill"></div></div>
@@ -323,13 +335,13 @@
 <div class="atmos" aria-hidden="true">
   <div class="aura"></div>
   <div class="grid"></div>
-  <div class="energy" id="energy"></div>
+  <div class="windfarm" id="windfarm"></div>
 </div>
 
 <!-- ================= HEADER / TABS ================= -->
 <header class="top">
   <div class="top-inner">
-    <div class="brand" data-goto="home" role="button" tabindex="0"><span class="led"></span>GREEN<span class="sl">//</span>COMPUTE</div>
+    <div class="brand" data-goto="home" role="button" tabindex="0"><span class="led"></span><span class="sl">BAC</span> Hackathon</div>
     <nav class="tabs" role="tablist" aria-label="Sections">
       <button class="tab on" role="tab" data-tab="home"   aria-selected="true">Home</button>
       <button class="tab"    role="tab" data-tab="tracks" aria-selected="false">Tracks</button>
@@ -350,7 +362,7 @@
         <span class="chip"><span class="dot"></span>Registration open soon</span>
         <span class="chip">NYU · New York City</span>
       </div>
-      <h1><span class="grad-text">GREEN//COMPUTE</span></h1>
+      <h1><span class="grad-text">BAC Hackathon</span></h1>
       <p class="hero-sub">A weekend hackathon to <b>measure, reuse, and reduce</b> the environmental footprint of data centers — the machines that run our whole digital world. Build tools that turn wasted heat and retired hardware into <b>provable</b> climate wins.</p>
       <div class="hero-cta">
         <a class="btn" data-goto="join" href="#join">Register Interest ►</a>
@@ -465,10 +477,18 @@
       </div>
 
       <span class="eyebrow" style="margin-bottom:22px;">Powered By</span>
-      <div class="marq" aria-label="Partners">
+      <div class="marq" aria-label="Partners &amp; sponsors">
         <div class="marq-track">
-          <span class="sp">Infrastructure Masons</span><span class="sp">Grundfos</span><span class="sp">OCP</span><span class="sp">Tech@NYU</span><span class="sp">NYU BAC</span>
-          <span class="sp" aria-hidden="true">Infrastructure Masons</span><span class="sp" aria-hidden="true">Grundfos</span><span class="sp" aria-hidden="true">OCP</span><span class="sp" aria-hidden="true">Tech@NYU</span><span class="sp" aria-hidden="true">NYU BAC</span>
+          <div class="logo-chip"><img src="assets/bac.png" alt="NYU Business Analytics Club"></div>
+          <div class="logo-chip"><img src="assets/imasons.png" alt="Infrastructure Masons"></div>
+          <div class="logo-chip"><img src="assets/grundfos.png" alt="Grundfos"></div>
+          <div class="logo-chip text">OCP</div>
+          <div class="logo-chip text">tech@nyu</div>
+          <div class="logo-chip" aria-hidden="true"><img src="assets/bac.png" alt=""></div>
+          <div class="logo-chip" aria-hidden="true"><img src="assets/imasons.png" alt=""></div>
+          <div class="logo-chip" aria-hidden="true"><img src="assets/grundfos.png" alt=""></div>
+          <div class="logo-chip text" aria-hidden="true">OCP</div>
+          <div class="logo-chip text" aria-hidden="true">tech@nyu</div>
         </div>
       </div>
       <div class="hosts">
@@ -508,7 +528,7 @@
           <div class="big">◪ INTEREST FORM — EMBED PENDING</div>
           [ paste Google Form / Typeform / Luma iframe here ]
         </div>
-        <a class="btn" href="mailto:jjp9203@nyu.edu?subject=GREEN//COMPUTE%20Hackathon%20Interest">Email us to get on the list ►</a>
+        <a class="btn" href="mailto:jjp9203@nyu.edu?subject=BAC%20Hackathon%20Interest">Email us to get on the list ►</a>
         <div class="contacts">
           <a href="mailto:jjp9203@nyu.edu">jjp9203@nyu.edu</a>
           <a href="mailto:oal2029@nyu.edu">oal2029@nyu.edu</a>
@@ -532,24 +552,45 @@
   const el = id => document.getElementById(id);
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  /* ===== ENERGY PARTICLES ===== */
+  /* ===== LED WIND FARM ===== */
   (function(){
-    const box = el("energy");
-    if (!box || reduce) return;
-    const N = 16;
-    for (let i=0;i<N;i++){
-      const p = document.createElement("i");
-      const dur = 7 + Math.random()*9;
-      p.style.left = (Math.random()*100).toFixed(2) + "%";
-      p.style.animationDuration = dur.toFixed(2) + "s";
-      p.style.animationDelay = (-Math.random()*dur).toFixed(2) + "s";
-      const c = ["var(--green)","var(--cyan)","var(--mint)","var(--blue)"][i%4];
-      p.style.background = c;
-      p.style.boxShadow = "0 0 12px " + c;
-      const sz = (2 + Math.random()*3).toFixed(1);
-      p.style.width = p.style.height = sz + "px";
-      box.appendChild(p);
-    }
+    const farm = el("windfarm");
+    if (!farm) return;
+    // viewBox 120x220, hub at (60,60); one blade points up, length ~52
+    const BLADE = "M0,0 C-4,-15 -3,-42 0,-54 C3,-42 4,-15 0,0 Z";
+    const svg = spd =>
+      '<svg viewBox="0 0 120 220" preserveAspectRatio="xMidYMax meet" aria-hidden="true">' +
+        '<path class="tower" d="M56.5,60 L59,216 L61,216 L63.5,60 Z"/>' +
+        '<rect class="nacelle" x="53" y="53" width="14" height="11" rx="3"/>' +
+        '<g class="blades" transform="translate(60,60)">' +
+          '<path class="blade" d="'+BLADE+'"/>' +
+          '<path class="blade" transform="rotate(120)" d="'+BLADE+'"/>' +
+          '<path class="blade" transform="rotate(240)" d="'+BLADE+'"/>' +
+        '</g>' +
+        '<circle class="hub" cx="60" cy="60" r="4.5"/>' +
+      '</svg>';
+    // left %, scale (px width base 128), speed s, opacity, cyan?
+    const specs = [
+      { l:4,  w:150, spd:8,  o:.60, cy:false },
+      { l:19, w:104, spd:11, o:.42, cy:true  },
+      { l:34, w:190, spd:6.5,o:.72, cy:false },
+      { l:52, w:88,  spd:13, o:.34, cy:true  },
+      { l:66, w:132, spd:9,  o:.55, cy:false },
+      { l:82, w:112, spd:10, o:.46, cy:true  },
+      { l:93, w:168, spd:7.5,o:.6,  cy:false },
+    ];
+    specs.forEach(sp => {
+      const t = document.createElement("div");
+      t.className = "turbine" + (sp.cy ? " cy" : "");
+      t.style.left = sp.l + "%";
+      t.style.width = sp.w + "px";
+      t.style.height = (sp.w * 220/120) + "px";
+      t.style.opacity = sp.o;
+      t.style.marginLeft = (-sp.w/2) + "px";
+      t.style.setProperty("--spd", sp.spd + "s");
+      t.innerHTML = svg(sp.spd);
+      farm.appendChild(t);
+    });
   })();
 
   /* ===== TABS ===== */
